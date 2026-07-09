@@ -1293,6 +1293,17 @@ target_include_directories(inline_data_file_allocate2_pbt_test PRIVATE
 target_link_libraries(inline_data_file_allocate2_pbt_test PRIVATE theft)
 add_test(NAME inline_data_file_allocate2_pbt_test COMMAND inline_data_file_allocate2_pbt_test)
 
+# --- Target: file_allocate (inline_data baseline lowlevel_file.c) ---
+add_executable(file_allocate_inline_data_baseline_pbt_test
+  file_allocate_inline_data_baseline_pbt_test.c
+  ../eval/inline_data/baseline/lowlevel_file.c
+)
+target_include_directories(file_allocate_inline_data_baseline_pbt_test PRIVATE
+  ../eval/inline_data/baseline
+)
+target_link_libraries(file_allocate_inline_data_baseline_pbt_test PRIVATE theft)
+add_test(NAME file_allocate_inline_data_baseline_pbt_test COMMAND file_allocate_inline_data_baseline_pbt_test)
+
 
 # --- Target: file_write (inline_data lowlevel_file.c) ---
 add_executable(inline_data_file_write_pbt_test
