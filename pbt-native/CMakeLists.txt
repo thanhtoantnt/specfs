@@ -106,6 +106,14 @@ target_link_libraries(encrypt_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME encrypt_lowlevel_file_write_pbt_test COMMAND encrypt_lowlevel_file_write_pbt_test)
 
 
+# --- Target: checksum lowlevel_file (eval/loc/gen/checksum/lowlevel_file.c) ---
+add_executable(checksum_lowlevel_file_write_pbt_test
+  checksum_lowlevel_file_write_pbt_test.c
+)
+target_link_libraries(checksum_lowlevel_file_write_pbt_test PRIVATE theft)
+add_test(NAME checksum_lowlevel_file_write_pbt_test COMMAND checksum_lowlevel_file_write_pbt_test)
+
+
 # --- Target: inode_truncate (extent variant) ---
 add_executable(inode_truncate_pbt_test
   inode_truncate_pbt_test.c
@@ -138,3 +146,20 @@ target_include_directories(inode_truncate_rbtree_pbt_test PRIVATE
 )
 target_link_libraries(inode_truncate_rbtree_pbt_test PRIVATE theft)
 add_test(NAME inode_truncate_rbtree_pbt_test COMMAND inode_truncate_rbtree_pbt_test)
+
+# --- Target: calculate (extent variant path_handling.c) ---
+add_executable(calculate_pbt_test
+  calculate_pbt_test.c
+)
+target_include_directories(calculate_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(calculate_pbt_test PRIVATE theft)
+add_test(NAME calculate_pbt_test COMMAND calculate_pbt_test)
+
+# --- Target: inode_read (extent variant) ---
+add_executable(inode_read_pbt_test
+  inode_read_pbt_test.c
+)
+target_link_libraries(inode_read_pbt_test PRIVATE theft)
+add_test(NAME inode_read_pbt_test COMMAND inode_read_pbt_test)
