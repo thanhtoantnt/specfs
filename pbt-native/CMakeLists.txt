@@ -86,6 +86,18 @@ target_include_directories(rbtree_lowlevel_file_write_pbt_test PRIVATE
 target_link_libraries(rbtree_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME rbtree_lowlevel_file_write_pbt_test COMMAND rbtree_lowlevel_file_write_pbt_test)
 
+# --- Target: file_write (pre_alloc lowlevel_file.c) ---
+add_executable(prealloc_lowlevel_file_write_pbt_test
+  prealloc_lowlevel_file_write_pbt_test.c
+  ../eval/pre_alloc/optimization/lowlevel_file.c
+  ../eval/pre_alloc/optimization/mballoc.c
+)
+target_include_directories(prealloc_lowlevel_file_write_pbt_test PRIVATE
+  ../eval/pre_alloc/optimization
+)
+target_link_libraries(prealloc_lowlevel_file_write_pbt_test PRIVATE theft)
+add_test(NAME prealloc_lowlevel_file_write_pbt_test COMMAND prealloc_lowlevel_file_write_pbt_test)
+
 # --- Target: inode_write (pre_alloc variant) ---
 add_executable(inode_write_prealloc_pbt_test
   inode_write_prealloc_pbt_test.c
