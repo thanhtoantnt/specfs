@@ -666,6 +666,18 @@ target_link_libraries(inode_truncate_delay_alloc_pbt_test PRIVATE theft)
 add_test(NAME inode_truncate_delay_alloc_pbt_test COMMAND inode_truncate_delay_alloc_pbt_test)
 
 
+# --- Target: inode_truncate safety (delay_alloc variant) ---
+add_executable(inode_truncate_delay_alloc_safety_pbt_test
+  inode_truncate_delay_alloc_safety_pbt_test.c
+  ../eval/delay_alloc/optimization/inode_management.c
+)
+target_include_directories(inode_truncate_delay_alloc_safety_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(inode_truncate_delay_alloc_safety_pbt_test PRIVATE theft)
+add_test(NAME inode_truncate_delay_alloc_safety_pbt_test COMMAND inode_truncate_delay_alloc_safety_pbt_test)
+
+
 # --- Target: calculate (extent variant path_handling.c) ---
 add_executable(calculate_pbt_test
   calculate_pbt_test.c
