@@ -180,6 +180,19 @@ target_include_directories(rbtree_file_read_pbt_test PRIVATE
 target_link_libraries(rbtree_file_read_pbt_test PRIVATE theft)
 add_test(NAME rbtree_file_read_pbt_test COMMAND rbtree_file_read_pbt_test)
 
+# --- Target: clear_file (rbtree lowlevel_file.c) ---
+add_executable(rbtree_clear_file_pbt_test
+  rbtree_clear_file_pbt_test.c
+  ../eval/rbtree/optimization/lowlevel_file.c
+  ../eval/rbtree/optimization/mballoc.c
+  ../eval/rbtree/optimization/rbtree.c
+)
+target_include_directories(rbtree_clear_file_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(rbtree_clear_file_pbt_test PRIVATE theft)
+add_test(NAME rbtree_clear_file_pbt_test COMMAND rbtree_clear_file_pbt_test)
+
 # --- Target: file_write (pre_alloc lowlevel_file.c) ---
 add_executable(prealloc_lowlevel_file_write_pbt_test
   prealloc_lowlevel_file_write_pbt_test.c
