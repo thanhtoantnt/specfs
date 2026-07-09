@@ -367,6 +367,18 @@ target_include_directories(delay_alloc_file_allocate_pbt_test PRIVATE
 target_link_libraries(delay_alloc_file_allocate_pbt_test PRIVATE theft)
 add_test(NAME delay_alloc_file_allocate_pbt_test COMMAND delay_alloc_file_allocate_pbt_test)
 
+# --- Target: file_read (loc delay_alloc lowlevel_file.c) ---
+add_executable(loc_delay_alloc_file_read_pbt_test
+  loc_delay_alloc_file_read_pbt_test.c
+  ../eval/loc/gen/delay-alloc/lowlevel_file.c
+  ../eval/loc/gen/delay-alloc/delalloc.c
+)
+target_include_directories(loc_delay_alloc_file_read_pbt_test PRIVATE
+  ../eval/loc/gen/delay-alloc
+)
+target_link_libraries(loc_delay_alloc_file_read_pbt_test PRIVATE theft)
+add_test(NAME loc_delay_alloc_file_read_pbt_test COMMAND loc_delay_alloc_file_read_pbt_test)
+
 # --- Target: file_read (delay_alloc lowlevel_file.c) ---
 add_executable(delay_alloc_file_read_pbt_test
   delay_alloc_file_read_pbt_test.c
@@ -403,6 +415,18 @@ target_include_directories(splitdirsfile_pbt_test PRIVATE
 )
 target_link_libraries(splitdirsfile_pbt_test PRIVATE theft)
 add_test(NAME splitdirsfile_pbt_test COMMAND splitdirsfile_pbt_test)
+
+# --- Target: splitDirsFile (rbtree util.c) ---
+add_executable(splitdirsfile_rbtree_pbt_test
+  splitdirsfile_rbtree_pbt_test.c
+  ../eval/rbtree/optimization/util.c
+  ../eval/rbtree/optimization/mcs.c
+)
+target_include_directories(splitdirsfile_rbtree_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(splitdirsfile_rbtree_pbt_test PRIVATE theft)
+add_test(NAME splitdirsfile_rbtree_pbt_test COMMAND splitdirsfile_rbtree_pbt_test)
 
 # --- Target: splitDirs (delay_alloc util.c) ---
 add_executable(splitdirs_pbt_test2
