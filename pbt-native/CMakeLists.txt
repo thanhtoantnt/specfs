@@ -241,17 +241,28 @@ target_include_directories(prealloc_clear_file_pbt_test PRIVATE
 target_link_libraries(prealloc_clear_file_pbt_test PRIVATE theft)
 add_test(NAME prealloc_clear_file_pbt_test COMMAND prealloc_clear_file_pbt_test)
 
-# --- Target: splitDirs (pre_alloc util.c) ---
-add_executable(splitdirs_prealloc_pbt_test
-  splitdirs_prealloc_pbt_test.c
-  ../eval/pre_alloc/optimization/util.c
-  ../eval/pre_alloc/optimization/mcs.c
+# --- Target: splitDirs (inline_data util.c) ---
+add_executable(splitdirs_inline_data_pbt_test
+  splitdirs_inline_data_pbt_test.c
+  ../eval/inline_data/optimization/util.c
+  ../eval/inline_data/optimization/mcs.c
 )
-target_include_directories(splitdirs_prealloc_pbt_test PRIVATE
-  ../eval/pre_alloc/optimization
+target_include_directories(splitdirs_inline_data_pbt_test PRIVATE
+  ../eval/inline_data/optimization
 )
-target_link_libraries(splitdirs_prealloc_pbt_test PRIVATE theft)
-add_test(NAME splitdirs_prealloc_pbt_test COMMAND splitdirs_prealloc_pbt_test)
+target_link_libraries(splitdirs_inline_data_pbt_test PRIVATE theft)
+add_test(NAME splitdirs_inline_data_pbt_test COMMAND splitdirs_inline_data_pbt_test)
+
+# --- Target: splitDirs regression (inline_data util.c) ---
+add_executable(splitdirs_inline_data_regression_test
+  splitdirs_inline_data_regression_test.c
+  ../eval/inline_data/optimization/util.c
+  ../eval/inline_data/optimization/mcs.c
+)
+target_include_directories(splitdirs_inline_data_regression_test PRIVATE
+  ../eval/inline_data/optimization
+)
+add_test(NAME splitdirs_inline_data_regression_test COMMAND splitdirs_inline_data_regression_test)
 
 
 # --- Target: inode_read (pre_alloc variant) ---
@@ -417,17 +428,17 @@ target_include_directories(splitdirsfile_pbt_test PRIVATE
 target_link_libraries(splitdirsfile_pbt_test PRIVATE theft)
 add_test(NAME splitdirsfile_pbt_test COMMAND splitdirsfile_pbt_test)
 
-# --- Target: splitDirsFile (extent util.c) ---
-add_executable(splitdirsfile_extent_pbt_test
-  splitdirsfile_extent_pbt_test.c
+# --- Target: splitDirs (extent util.c) ---
+add_executable(splitdirs_extent_pbt_test
+  splitdirs_extent_pbt_test.c
   ../eval/extent/optimization/util.c
   ../eval/extent/optimization/mcs.c
 )
-target_include_directories(splitdirsfile_extent_pbt_test PRIVATE
+target_include_directories(splitdirs_extent_pbt_test PRIVATE
   ../eval/extent/optimization
 )
-target_link_libraries(splitdirsfile_extent_pbt_test PRIVATE theft)
-add_test(NAME splitdirsfile_extent_pbt_test COMMAND splitdirsfile_extent_pbt_test)
+target_link_libraries(splitdirs_extent_pbt_test PRIVATE theft)
+add_test(NAME splitdirs_extent_pbt_test COMMAND splitdirs_extent_pbt_test)
 
 # --- Target: splitDirsFile (inline_data util.c) ---
 add_executable(splitdirsfile_inline_data_pbt_test
