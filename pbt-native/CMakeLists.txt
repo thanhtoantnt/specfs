@@ -999,6 +999,17 @@ target_include_directories(extent_file_read_pbt_test PRIVATE
 target_link_libraries(extent_file_read_pbt_test PRIVATE theft)
 add_test(NAME extent_file_read_pbt_test COMMAND extent_file_read_pbt_test)
 
+# --- Target: file_read extent variant (lowlevel_file.c) ---
+add_executable(file_read_extent_pbt_test
+  file_read_extent_pbt_test.c
+  ../eval/extent/optimization/lowlevel_file.c
+)
+target_include_directories(file_read_extent_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(file_read_extent_pbt_test PRIVATE theft)
+add_test(NAME file_read_extent_pbt_test COMMAND file_read_extent_pbt_test)
+
 # --- Target: encrypt lowlevel_file (eval/loc/gen/encrypt/lowlevel_file.c) ---
 add_executable(encrypt_lowlevel_file_write_pbt_test
   encrypt_lowlevel_file_write_pbt_test.c
