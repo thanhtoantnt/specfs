@@ -648,6 +648,17 @@ target_include_directories(getlen_delay_alloc_pbt_test PRIVATE
 target_link_libraries(getlen_delay_alloc_pbt_test PRIVATE theft)
 add_test(NAME getlen_delay_alloc_pbt_test COMMAND getlen_delay_alloc_pbt_test)
 
+# --- Target: getlen (rbtree variant path_handling.c) ---
+add_executable(getlen_rbtree_pbt_test
+  getlen_rbtree_pbt_test.c
+  ../eval/rbtree/optimization/path_handling.c
+)
+target_include_directories(getlen_rbtree_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(getlen_rbtree_pbt_test PRIVATE theft)
+add_test(NAME getlen_rbtree_pbt_test COMMAND getlen_rbtree_pbt_test)
+
 # --- Target: inode_read (extent variant) ---
 add_executable(inode_read_pbt_test
   inode_read_pbt_test.c
