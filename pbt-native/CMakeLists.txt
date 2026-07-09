@@ -140,6 +140,17 @@ target_include_directories(inode_write_extent_null_pbt_test PRIVATE
 target_link_libraries(inode_write_extent_null_pbt_test PRIVATE theft)
 add_test(NAME inode_write_extent_null_pbt_test COMMAND inode_write_extent_null_pbt_test)
 
+# --- Target: inode_write (extent baseline variant) ---
+add_executable(inode_write_baseline_pbt_test
+  inode_write_baseline_pbt_test.c
+  ../eval/extent/baseline/inode_management.c
+)
+target_include_directories(inode_write_baseline_pbt_test PRIVATE
+  ../eval/extent/baseline
+)
+target_link_libraries(inode_write_baseline_pbt_test PRIVATE theft)
+add_test(NAME inode_write_baseline_pbt_test COMMAND inode_write_baseline_pbt_test)
+
 # --- Target: find (rbtree variant) ---
 add_executable(find_rbtree_pbt_test
   find_rbtree_pbt_test.c
@@ -553,6 +564,17 @@ target_include_directories(malloc_inode_extent_pbt_test PRIVATE
 )
 target_link_libraries(malloc_inode_extent_pbt_test PRIVATE theft)
 add_test(NAME malloc_inode_extent_pbt_test COMMAND malloc_inode_extent_pbt_test)
+
+# --- Target: dispose_inode (extent util.c) ---
+add_executable(dispose_inode_extent_pbt_test
+  dispose_inode_extent_pbt_test.c
+  ../eval/extent/optimization/mcs.c
+)
+target_include_directories(dispose_inode_extent_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(dispose_inode_extent_pbt_test PRIVATE theft)
+add_test(NAME dispose_inode_extent_pbt_test COMMAND dispose_inode_extent_pbt_test)
 
 # --- Target: splitDirsFile (inline_data util.c) ---
 add_executable(splitdirsfile_inline_data_pbt_test
