@@ -354,6 +354,18 @@ target_include_directories(delay_alloc_file_read_pbt_test PRIVATE
 target_link_libraries(delay_alloc_file_read_pbt_test PRIVATE theft)
 add_test(NAME delay_alloc_file_read_pbt_test COMMAND delay_alloc_file_read_pbt_test)
 
+# --- Target: clear_file (delay_alloc lowlevel_file.c) ---
+add_executable(delay_alloc_clear_file_pbt_test
+  delay_alloc_clear_file_pbt_test.c
+  ../eval/delay_alloc/optimization/lowlevel_file.c
+  ../eval/delay_alloc/optimization/delalloc.c
+)
+target_include_directories(delay_alloc_clear_file_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(delay_alloc_clear_file_pbt_test PRIVATE theft)
+add_test(NAME delay_alloc_clear_file_pbt_test COMMAND delay_alloc_clear_file_pbt_test)
+
 # --- Target: splitDirsFile (delay_alloc util.c) ---
 add_executable(splitdirsfile_pbt_test
   splitdirsfile_pbt_test.c
