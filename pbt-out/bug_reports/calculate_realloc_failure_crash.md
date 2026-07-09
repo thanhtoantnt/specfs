@@ -2,6 +2,7 @@
 
 ## Target
 - File: `eval/extent/optimization/path_handling.c`
+- File: `eval/extent/baseline/path_handling.c`
 - File: `eval/rbtree/optimization/path_handling.c`
 - File: `eval/delay_alloc/optimization/path_handling.c`
 - File: `eval/inline_data/optimization/path_handling.c`
@@ -42,11 +43,20 @@ The inline_data variant reproduced the same failure in `calculate_inline_data_pb
 src=["aba"], dst=["aba", "", "abdcbd", "bb"]
 ```
 
+The extent baseline variant reproduced the same failure in `calculate_baseline_pbt_test` with examples including:
+
+```text
+src=[], dst=[]
+```
+
 ## Reproduction
 ```sh
 cmake -S pbt-native -B pbt-native/build
 cmake --build pbt-native/build --target calculate_pbt_test
 ctest --test-dir pbt-native/build -R '^calculate_pbt_test$' --output-on-failure
+
+cmake --build pbt-native/build --target calculate_baseline_pbt_test
+ctest --test-dir pbt-native/build -R '^calculate_baseline_pbt_test$' --output-on-failure
 
 cmake --build pbt-native/build --target calculate_rbtree_pbt_test
 ctest --test-dir pbt-native/build -R '^calculate_rbtree_pbt_test$' --output-on-failure
