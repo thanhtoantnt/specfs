@@ -122,6 +122,17 @@ target_include_directories(prealloc_lowlevel_file_write_pbt_test PRIVATE
 target_link_libraries(prealloc_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME prealloc_lowlevel_file_write_pbt_test COMMAND prealloc_lowlevel_file_write_pbt_test)
 
+# --- Target: inode_read (pre_alloc variant) ---
+add_executable(inode_read_prealloc_pbt_test
+  inode_read_prealloc_pbt_test.c
+  ../eval/pre_alloc/optimization/inode_management.c
+)
+target_include_directories(inode_read_prealloc_pbt_test PRIVATE
+  ../eval/pre_alloc/optimization
+)
+target_link_libraries(inode_read_prealloc_pbt_test PRIVATE theft)
+add_test(NAME inode_read_prealloc_pbt_test COMMAND inode_read_prealloc_pbt_test)
+
 # --- Target: inode_write (pre_alloc variant) ---
 add_executable(inode_write_prealloc_pbt_test
   inode_write_prealloc_pbt_test.c
