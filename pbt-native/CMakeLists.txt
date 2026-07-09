@@ -415,6 +415,18 @@ target_include_directories(delay_alloc_clear_file_pbt_test PRIVATE
 target_link_libraries(delay_alloc_clear_file_pbt_test PRIVATE theft)
 add_test(NAME delay_alloc_clear_file_pbt_test COMMAND delay_alloc_clear_file_pbt_test)
 
+# --- Target: malloc_inode (delay_alloc util.c) ---
+add_executable(malloc_inode_delay_alloc_pbt_test
+  malloc_inode_delay_alloc_pbt_test.c
+  ../eval/delay_alloc/optimization/util.c
+  ../eval/delay_alloc/optimization/mcs.c
+)
+target_include_directories(malloc_inode_delay_alloc_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(malloc_inode_delay_alloc_pbt_test PRIVATE theft)
+add_test(NAME malloc_inode_delay_alloc_pbt_test COMMAND malloc_inode_delay_alloc_pbt_test)
+
 # --- Target: splitDirsFile (delay_alloc util.c) ---
 add_executable(splitdirsfile_pbt_test
   splitdirsfile_pbt_test.c
