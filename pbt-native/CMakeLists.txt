@@ -603,6 +603,16 @@ target_include_directories(calculate_prealloc_pbt_test PRIVATE
 target_link_libraries(calculate_prealloc_pbt_test PRIVATE theft)
 add_test(NAME calculate_prealloc_pbt_test COMMAND calculate_prealloc_pbt_test)
 
+# --- Target: calculate (inline_data variant path_handling.c) ---
+add_executable(calculate_inline_data_pbt_test
+  calculate_inline_data_pbt_test.c
+)
+target_include_directories(calculate_inline_data_pbt_test PRIVATE
+  ../eval/inline_data/optimization
+)
+target_link_libraries(calculate_inline_data_pbt_test PRIVATE theft)
+add_test(NAME calculate_inline_data_pbt_test COMMAND calculate_inline_data_pbt_test)
+
 # --- Target: locate (extent variant path_handling.c) ---
 add_executable(locate_pbt_test
   locate_pbt_test.c

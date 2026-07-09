@@ -4,6 +4,7 @@
 - File: `eval/extent/optimization/path_handling.c`
 - File: `eval/rbtree/optimization/path_handling.c`
 - File: `eval/delay_alloc/optimization/path_handling.c`
+- File: `eval/inline_data/optimization/path_handling.c`
 - Function: `calculate`
 
 ## Finding
@@ -35,6 +36,12 @@ The delay_alloc variant reproduced the same failure in `calculate_delay_alloc_pb
 src=[], dst=["a"]
 ```
 
+The inline_data variant reproduced the same failure in `calculate_inline_data_pbt_test` with examples including:
+
+```text
+src=["aba"], dst=["aba", "", "abdcbd", "bb"]
+```
+
 ## Reproduction
 ```sh
 cmake -S pbt-native -B pbt-native/build
@@ -46,6 +53,9 @@ ctest --test-dir pbt-native/build -R '^calculate_rbtree_pbt_test$' --output-on-f
 
 cmake --build pbt-native/build --target calculate_delay_alloc_pbt_test
 ctest --test-dir pbt-native/build -R '^calculate_delay_alloc_pbt_test$' --output-on-failure
+
+cmake --build pbt-native/build --target calculate_inline_data_pbt_test
+ctest --test-dir pbt-native/build -R '^calculate_inline_data_pbt_test$' --output-on-failure
 ```
 
 Observed result: the first four functional properties pass, and `realloc_failure_does_not_crash` fails.
