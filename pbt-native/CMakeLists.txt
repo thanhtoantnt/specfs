@@ -1057,9 +1057,13 @@ target_link_libraries(encrypt_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME encrypt_lowlevel_file_write_pbt_test COMMAND encrypt_lowlevel_file_write_pbt_test)
 
 
-# --- Target: checksum lowlevel_file (eval/loc/gen/checksum/lowlevel_file.c) ---
+# --- Target: checksum lowlevel_file (extent optimization lowlevel_file.c) ---
 add_executable(checksum_lowlevel_file_write_pbt_test
   checksum_lowlevel_file_write_pbt_test.c
+  ../eval/extent/optimization/lowlevel_file.c
+)
+target_include_directories(checksum_lowlevel_file_write_pbt_test PRIVATE
+  ../eval/extent/optimization
 )
 target_link_libraries(checksum_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME checksum_lowlevel_file_write_pbt_test COMMAND checksum_lowlevel_file_write_pbt_test)

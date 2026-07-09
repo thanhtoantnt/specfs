@@ -1,74 +1,39 @@
 /*
- * Property-based tests for file_write() in
- * eval/loc/gen/checksum/lowlevel_file.c
+ * Property-based checksum-oracle tests for file_write() in
+ * eval/extent/optimization/lowlevel_file.c
  *
- * Standalone harness: supplies the minimal inode/index-table model and a
- * deterministic checksum oracle so checksum preconditions and postconditions
- * are observable without the rest of specfs.
+ * Oracle: Algebraic/model checksum. For bounded file regions, the checksum of
+ * bytes read from the real extent-backed file must equal the checksum of a
+ * simple byte-array model after the same writes.
+ * Stronger considered:
+ *   - State Machine: rejected - file_write has no lifecycle API.
+ *   - Differential: rejected - no independent production implementation in scope.
  */
 #include <theft.h>
 
-#include <assert.h>
-#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
-#define PG_SIZE 64U
-#define INDEXTB_NUM 16U
-#define MAX_WRITE_BYTES 192U
+#include "common.h"
+#include "lowlevel_file.h"
+
 #define MAX_CASE_PAGES 4U
+#define MAX_TEST_PAGE 16U
+#define MAX_WRITE_BYTES 2048U
 
-struct inode {
-    uint32_t checksum;
-};
-
-struct indextb {
-    struct inode *parent_inode;
-    char *index[INDEXTB_NUM];
-};
-
-unsigned char *malloc_page(void);
-bool checksum_validate(const struct inode *node);
-void checksum_update(struct inode *node);
-
-/* Include the target after defining its dependencies. */
-#include "../eval/loc/gen/checksum/lowlevel_file.c"
-
-static uint32_t checksum_model(const struct inode *node)
-{
-    uintptr_t v = (uintptr_t)node;
-    return (uint32_t)(0x9E3779B9U ^ (v >> 4) ^ (v >> 12));
-}
-
-bool checksum_validate(const struct inode *node)
-{
-    return node != NULL && node->checksum == checksum_model(node);
-}
-
-void checksum_update(struct inode *node)
-{
-    assert(node != NULL);
-    node->checksum = checksum_model(node);
-}
-
-unsigned char *malloc_page(void)
-{
-    unsigned char *page = malloc(PG_SIZE);
-    if (page != NULL) memset(page, 0, PG_SIZE);
-    return page;
-}
-
-struct write_case {
+struct checksum_case {
     unsigned start_page;
     unsigned page_count;
-    unsigned page_off;
-    unsigned len;
-    unsigned char data[MAX_WRITE_BYTES];
+    unsigned off1;
+    unsigned len1;
+    unsigned off2;
+    unsigned len2;
+    unsigned clear_off;
+    unsigned clear_len;
+    unsigned char data1[MAX_WRITE_BYTES];
+    unsigned char data2[MAX_WRITE_BYTES];
 };
 
 static unsigned bounded_choice(struct theft *t, unsigned bound)
@@ -76,253 +41,244 @@ static unsigned bounded_choice(struct theft *t, unsigned bound)
     return (unsigned)theft_random_choice(t, (uint64_t)bound);
 }
 
-static enum theft_alloc_res write_case_alloc_cb(struct theft *t, void *env, void **instance)
+static unsigned choose_offset(struct theft *t, unsigned region_len)
+{
+    switch (theft_random_choice(t, 6U)) {
+    case 0: return 0U;
+    case 1: return region_len > 1U ? 1U : 0U;
+    case 2: return PG_SIZE - 1U;
+    case 3: return PG_SIZE / 2U;
+    case 4: return region_len - 1U;
+    default: return bounded_choice(t, region_len);
+    }
+}
+
+static unsigned choose_len(struct theft *t, unsigned available)
+{
+    unsigned max_len = available < MAX_WRITE_BYTES ? available : MAX_WRITE_BYTES;
+    switch (theft_random_choice(t, 6U)) {
+    case 0: return 1U;
+    case 1: return max_len;
+    case 2: return max_len > 1U ? max_len - 1U : 1U;
+    case 3: return PG_SIZE < max_len ? PG_SIZE : max_len;
+    default: return 1U + bounded_choice(t, max_len);
+    }
+}
+
+static enum theft_alloc_res checksum_case_alloc_cb(struct theft *t, void *env, void **instance)
 {
     (void)env;
-    struct write_case *wc = malloc(sizeof(*wc));
-    if (wc == NULL) return THEFT_ALLOC_ERROR;
+    struct checksum_case *cc = malloc(sizeof(*cc));
+    if (cc == NULL) return THEFT_ALLOC_ERROR;
 
-    wc->page_count = 1U + bounded_choice(t, MAX_CASE_PAGES);
-    wc->start_page = bounded_choice(t, INDEXTB_NUM - wc->page_count);
+    memset(cc, 0, sizeof(*cc));
+    cc->page_count = 1U + bounded_choice(t, MAX_CASE_PAGES);
+    cc->start_page = bounded_choice(t, MAX_TEST_PAGE);
 
-    switch (theft_random_choice(t, 5)) {
-    case 0: wc->page_off = 0U; break;
-    case 1: wc->page_off = 1U; break;
-    case 2: wc->page_off = PG_SIZE - 1U; break;
-    case 3: wc->page_off = PG_SIZE / 2U; break;
-    default: wc->page_off = bounded_choice(t, PG_SIZE); break;
-    }
-
-    unsigned available = wc->page_count * PG_SIZE - wc->page_off;
-    unsigned max_len = available < MAX_WRITE_BYTES ? available : MAX_WRITE_BYTES;
-    wc->len = 1U + bounded_choice(t, max_len);
+    unsigned region_len = cc->page_count * PG_SIZE;
+    cc->off1 = choose_offset(t, region_len);
+    cc->len1 = choose_len(t, region_len - cc->off1);
+    cc->off2 = choose_offset(t, region_len);
+    cc->len2 = choose_len(t, region_len - cc->off2);
+    cc->clear_off = choose_offset(t, region_len);
+    cc->clear_len = choose_len(t, region_len - cc->clear_off);
 
     for (unsigned i = 0; i < MAX_WRITE_BYTES; i++) {
-        wc->data[i] = (unsigned char)theft_random_choice(t, 256);
+        cc->data1[i] = (unsigned char)theft_random_choice(t, 256U);
+        cc->data2[i] = (unsigned char)theft_random_choice(t, 256U);
     }
 
-    *instance = wc;
+    *instance = cc;
     return THEFT_ALLOC_OK;
 }
 
-static void write_case_free_cb(void *instance, void *env)
+static void checksum_case_free_cb(void *instance, void *env)
 {
     (void)env;
     free(instance);
 }
 
-static theft_hash write_case_hash_cb(const void *instance, void *env)
+static theft_hash checksum_case_hash_cb(const void *instance, void *env)
 {
     (void)env;
-    return theft_hash_onepass(instance, sizeof(struct write_case));
+    return theft_hash_onepass(instance, sizeof(struct checksum_case));
 }
 
-static void write_case_print_cb(FILE *f, const void *instance, void *env)
+static void checksum_case_print_cb(FILE *f, const void *instance, void *env)
 {
     (void)env;
-    const struct write_case *wc = instance;
-    fprintf(f, "{start_page=%u, page_count=%u, page_off=%u, len=%u}",
-            wc->start_page, wc->page_count, wc->page_off, wc->len);
+    const struct checksum_case *cc = instance;
+    fprintf(f,
+            "{start_page=%u, page_count=%u, off1=%u, len1=%u, off2=%u, len2=%u, clear_off=%u, clear_len=%u}",
+            cc->start_page, cc->page_count, cc->off1, cc->len1,
+            cc->off2, cc->len2, cc->clear_off, cc->clear_len);
 }
 
-static struct theft_type_info write_case_info = {
-    .alloc = write_case_alloc_cb,
-    .free = write_case_free_cb,
-    .hash = write_case_hash_cb,
-    .print = write_case_print_cb,
+static struct theft_type_info checksum_case_info = {
+    .alloc = checksum_case_alloc_cb,
+    .free = checksum_case_free_cb,
+    .hash = checksum_case_hash_cb,
+    .print = checksum_case_print_cb,
 };
 
-static void init_table(struct indextb *tb, struct inode *node)
+static uint64_t checksum(const unsigned char *data, size_t len)
 {
-    memset(tb, 0, sizeof(*tb));
-    memset(node, 0, sizeof(*node));
-    tb->parent_inode = node;
-    checksum_update(node);
-}
-
-static void cleanup_table(struct indextb *tb)
-{
-    for (unsigned i = 0; i < INDEXTB_NUM; i++) {
-        free(tb->index[i]);
-        tb->index[i] = NULL;
+    uint64_t h = 1469598103934665603ULL;
+    for (size_t i = 0; i < len; i++) {
+        h ^= data[i];
+        h *= 1099511628211ULL;
     }
+    return h;
 }
 
-static unsigned case_offset(const struct write_case *wc)
+static struct inode make_inode(void)
 {
-    return wc->start_page * PG_SIZE + wc->page_off;
-}
-
-static unsigned case_region_bytes(const struct write_case *wc)
-{
-    return wc->page_count * PG_SIZE;
-}
-
-static enum theft_trial_res prop_roundtrip_and_checksum_valid(struct theft *t, void *arg1)
-{
-    (void)t;
-    const struct write_case *wc = arg1;
     struct inode node;
-    struct indextb tb;
-    init_table(&tb, &node);
+    memset(&node, 0, sizeof(node));
+    return node;
+}
 
-    unsigned offset = case_offset(wc);
-    file_write(&tb, offset, wc->len, (const char *)wc->data);
-
-    unsigned char *out = malloc(wc->len);
-    if (out == NULL) {
-        cleanup_table(&tb);
-        return THEFT_TRIAL_ERROR;
+static void free_extents(struct inode *node)
+{
+    Extent *cur = node->extents;
+    while (cur != NULL) {
+        Extent *next = cur->next;
+        free(cur->data);
+        free(cur);
+        cur = next;
     }
-    memset(out, 0xCC, wc->len);
-    file_read(&tb, offset, wc->len, (char *)out);
+    node->extents = NULL;
+}
 
-    int ok = memcmp(out, wc->data, wc->len) == 0 && checksum_validate(&node);
-    if (!ok) fprintf(stderr, "roundtrip/checksum mismatch: offset=%u len=%u\n", offset, wc->len);
+static unsigned base_offset(const struct checksum_case *cc)
+{
+    return cc->start_page * PG_SIZE;
+}
 
+static unsigned region_bytes(const struct checksum_case *cc)
+{
+    return cc->page_count * PG_SIZE;
+}
+
+static int read_region_checksum(struct inode *node, unsigned offset, unsigned len, uint64_t *out_checksum)
+{
+    unsigned char *out = malloc(len);
+    if (out == NULL) return 0;
+    memset(out, 0xCC, len);
+    file_read(node, offset, len, (char *)out);
+    *out_checksum = checksum(out, len);
     free(out);
-    cleanup_table(&tb);
+    return 1;
+}
+
+static enum theft_trial_res prop_single_write_region_checksum_matches_model(struct theft *t, void *arg1)
+{
+    (void)t;
+    const struct checksum_case *cc = arg1;
+    struct inode node = make_inode();
+    unsigned base = base_offset(cc);
+    unsigned region_len = region_bytes(cc);
+    unsigned char *model = calloc(region_len, 1U);
+    if (model == NULL) return THEFT_TRIAL_ERROR;
+
+    memcpy(model + cc->off1, cc->data1, cc->len1);
+    file_write(&node, base + cc->off1, cc->len1, (const char *)cc->data1);
+
+    uint64_t actual = 0;
+    int ok = read_region_checksum(&node, base, region_len, &actual);
+    uint64_t expected = checksum(model, region_len);
+    if (!ok || actual != expected) {
+        fprintf(stderr, "single-write checksum mismatch: actual=%llu expected=%llu\n",
+                (unsigned long long)actual, (unsigned long long)expected);
+        ok = 0;
+    }
+
+    free(model);
+    free_extents(&node);
     return ok ? THEFT_TRIAL_PASS : THEFT_TRIAL_FAIL;
 }
 
-static enum theft_trial_res prop_sparse_write_zero_fills_unwritten_bytes(struct theft *t, void *arg1)
+static enum theft_trial_res prop_two_writes_region_checksum_matches_model(struct theft *t, void *arg1)
 {
     (void)t;
-    const struct write_case *wc = arg1;
-    struct inode node;
-    struct indextb tb;
-    init_table(&tb, &node);
+    const struct checksum_case *cc = arg1;
+    struct inode node = make_inode();
+    unsigned base = base_offset(cc);
+    unsigned region_len = region_bytes(cc);
+    unsigned char *model = calloc(region_len, 1U);
+    if (model == NULL) return THEFT_TRIAL_ERROR;
 
-    unsigned region = case_region_bytes(wc);
-    unsigned offset = case_offset(wc);
-    file_write(&tb, offset, wc->len, (const char *)wc->data);
+    memcpy(model + cc->off1, cc->data1, cc->len1);
+    file_write(&node, base + cc->off1, cc->len1, (const char *)cc->data1);
+    memcpy(model + cc->off2, cc->data2, cc->len2);
+    file_write(&node, base + cc->off2, cc->len2, (const char *)cc->data2);
 
-    unsigned char *out = malloc(region);
-    if (out == NULL) {
-        cleanup_table(&tb);
-        return THEFT_TRIAL_ERROR;
-    }
-    memset(out, 0xCC, region);
-    file_read(&tb, wc->start_page * PG_SIZE, region, (char *)out);
-
-    int ok = 1;
-    for (unsigned i = 0; i < region; i++) {
-        unsigned abs_off = wc->start_page * PG_SIZE + i;
-        unsigned char expected = 0U;
-        if (abs_off >= offset && abs_off < offset + wc->len) {
-            expected = wc->data[abs_off - offset];
-        }
-        if (out[i] != expected) {
-            fprintf(stderr, "sparse mismatch at byte %u: got=%u expected=%u\n", i, out[i], expected);
-            ok = 0;
-            break;
-        }
+    uint64_t actual = 0;
+    int ok = read_region_checksum(&node, base, region_len, &actual);
+    uint64_t expected = checksum(model, region_len);
+    if (!ok || actual != expected) {
+        fprintf(stderr, "two-write checksum mismatch: actual=%llu expected=%llu\n",
+                (unsigned long long)actual, (unsigned long long)expected);
+        ok = 0;
     }
 
-    free(out);
-    cleanup_table(&tb);
+    free(model);
+    free_extents(&node);
     return ok ? THEFT_TRIAL_PASS : THEFT_TRIAL_FAIL;
 }
 
-static enum theft_trial_res prop_existing_pages_preserve_unwritten_bytes(struct theft *t, void *arg1)
+static enum theft_trial_res prop_null_write_zeroes_checksum_span(struct theft *t, void *arg1)
 {
     (void)t;
-    const struct write_case *wc = arg1;
-    struct inode node;
-    struct indextb tb;
-    init_table(&tb, &node);
+    const struct checksum_case *cc = arg1;
+    struct inode node = make_inode();
+    unsigned base = base_offset(cc);
+    unsigned region_len = region_bytes(cc);
+    unsigned char *model = calloc(region_len, 1U);
+    if (model == NULL) return THEFT_TRIAL_ERROR;
 
-    for (unsigned p = 0; p < wc->page_count; p++) {
-        tb.index[wc->start_page + p] = (char *)malloc_page();
-        if (tb.index[wc->start_page + p] == NULL) {
-            cleanup_table(&tb);
-            return THEFT_TRIAL_ERROR;
-        }
-        memset(tb.index[wc->start_page + p], (int)(0x40U + p), PG_SIZE);
-    }
-    checksum_update(&node);
+    memcpy(model + cc->off1, cc->data1, cc->len1);
+    file_write(&node, base + cc->off1, cc->len1, (const char *)cc->data1);
+    memset(model + cc->clear_off, 0, cc->clear_len);
+    file_write(&node, base + cc->clear_off, cc->clear_len, NULL);
 
-    unsigned region = case_region_bytes(wc);
-    unsigned offset = case_offset(wc);
-    file_write(&tb, offset, wc->len, (const char *)wc->data);
-
-    unsigned char *out = malloc(region);
-    if (out == NULL) {
-        cleanup_table(&tb);
-        return THEFT_TRIAL_ERROR;
-    }
-    file_read(&tb, wc->start_page * PG_SIZE, region, (char *)out);
-
-    int ok = 1;
-    for (unsigned i = 0; i < region; i++) {
-        unsigned page_delta = i / PG_SIZE;
-        unsigned abs_off = wc->start_page * PG_SIZE + i;
-        unsigned char expected = (unsigned char)(0x40U + page_delta);
-        if (abs_off >= offset && abs_off < offset + wc->len) {
-            expected = wc->data[abs_off - offset];
-        }
-        if (out[i] != expected) {
-            fprintf(stderr, "preservation mismatch at byte %u: got=%u expected=%u\n", i, out[i], expected);
-            ok = 0;
-            break;
-        }
+    uint64_t actual = 0;
+    int ok = read_region_checksum(&node, base, region_len, &actual);
+    uint64_t expected = checksum(model, region_len);
+    if (!ok || actual != expected) {
+        fprintf(stderr, "null-write checksum mismatch: actual=%llu expected=%llu\n",
+                (unsigned long long)actual, (unsigned long long)expected);
+        ok = 0;
     }
 
-    free(out);
-    cleanup_table(&tb);
+    free(model);
+    free_extents(&node);
     return ok ? THEFT_TRIAL_PASS : THEFT_TRIAL_FAIL;
 }
 
-static enum theft_trial_res prop_zero_length_write_is_noop(struct theft *t, void *arg1)
+static enum theft_trial_res prop_zero_length_write_preserves_checksum(struct theft *t, void *arg1)
 {
     (void)t;
-    const struct write_case *wc = arg1;
-    struct inode node;
-    struct indextb tb;
-    init_table(&tb, &node);
-    uint32_t before_checksum = node.checksum;
+    const struct checksum_case *cc = arg1;
+    struct inode node = make_inode();
+    unsigned base = base_offset(cc);
+    unsigned region_len = region_bytes(cc);
 
-    file_write(&tb, case_offset(wc), 0U, (const char *)wc->data);
+    file_write(&node, base + cc->off1, cc->len1, (const char *)cc->data1);
 
-    int ok = node.checksum == before_checksum && checksum_validate(&node);
-    for (unsigned i = 0; ok && i < INDEXTB_NUM; i++) {
-        ok = tb.index[i] == NULL;
+    uint64_t before = 0;
+    uint64_t after = 0;
+    int ok = read_region_checksum(&node, base, region_len, &before);
+    file_write(&node, base + cc->off2, 0U, (const char *)cc->data2);
+    ok = ok && read_region_checksum(&node, base, region_len, &after);
+    if (!ok || before != after) {
+        fprintf(stderr, "zero-length checksum changed: before=%llu after=%llu\n",
+                (unsigned long long)before, (unsigned long long)after);
+        ok = 0;
     }
-    if (!ok) fprintf(stderr, "zero-length write changed checksum or allocated a page\n");
 
-    cleanup_table(&tb);
+    free_extents(&node);
     return ok ? THEFT_TRIAL_PASS : THEFT_TRIAL_FAIL;
-}
-
-static enum theft_trial_res prop_bad_checksum_rejects_write(struct theft *t, void *arg1)
-{
-    (void)t;
-    const struct write_case *wc = arg1;
-    pid_t pid = fork();
-    if (pid < 0) {
-        perror("fork");
-        return THEFT_TRIAL_ERROR;
-    }
-
-    if (pid == 0) {
-        struct inode node;
-        struct indextb tb;
-        init_table(&tb, &node);
-        node.checksum ^= 0xA5A5A5A5U;
-        file_write(&tb, case_offset(wc), wc->len, (const char *)wc->data);
-        cleanup_table(&tb);
-        _exit(0);
-    }
-
-    int status = 0;
-    if (waitpid(pid, &status, 0) < 0) {
-        perror("waitpid");
-        return THEFT_TRIAL_ERROR;
-    }
-
-    if (WIFSIGNALED(status)) return THEFT_TRIAL_PASS;
-    fprintf(stderr, "bad checksum write was not rejected: status=%d\n", status);
-    return THEFT_TRIAL_FAIL;
 }
 
 #define RUN_PROP(name_, prop_, trials_)                                  \
@@ -330,7 +286,7 @@ static enum theft_trial_res prop_bad_checksum_rejects_write(struct theft *t, voi
         struct theft_run_config cfg = {                                   \
             .name = name_,                                                \
             .prop1 = prop_,                                               \
-            .type_info = { &write_case_info },                            \
+            .type_info = { &checksum_case_info },                         \
             .trials = trials_,                                            \
             .seed = theft_seed_of_time(),                                 \
         };                                                                \
@@ -344,14 +300,12 @@ int main(void)
 {
     int failures = 0;
 
-    printf("checksum lowlevel file_write property-based tests:\n");
-    RUN_PROP("roundtrip_and_checksum_valid", prop_roundtrip_and_checksum_valid, 300);
-    RUN_PROP("sparse_write_zero_fills_unwritten_bytes", prop_sparse_write_zero_fills_unwritten_bytes, 300);
-    RUN_PROP("existing_pages_preserve_unwritten_bytes", prop_existing_pages_preserve_unwritten_bytes, 300);
-    RUN_PROP("zero_length_write_is_noop", prop_zero_length_write_is_noop, 100);
-    RUN_PROP("bad_checksum_rejects_write", prop_bad_checksum_rejects_write, 100);
+    printf("checksum-oracle extent lowlevel file_write property-based tests:\n");
+    RUN_PROP("single_write_region_checksum_matches_model", prop_single_write_region_checksum_matches_model, 300);
+    RUN_PROP("two_writes_region_checksum_matches_model", prop_two_writes_region_checksum_matches_model, 300);
+    RUN_PROP("null_write_zeroes_checksum_span", prop_null_write_zeroes_checksum_span, 200);
+    RUN_PROP("zero_length_write_preserves_checksum", prop_zero_length_write_preserves_checksum, 200);
 
     printf("\n%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;
 }
-
