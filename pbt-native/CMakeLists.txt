@@ -51,6 +51,17 @@ target_include_directories(hash_func_pbt_test PRIVATE
 target_link_libraries(hash_func_pbt_test PRIVATE theft)
 add_test(NAME hash_func_pbt_test COMMAND hash_func_pbt_test)
 
+# --- Target: hash_func (rbtree variant) ---
+add_executable(hash_func_rbtree_pbt_test
+  hash_func_rbtree_pbt_test.c
+  ../eval/rbtree/optimization/hashing.c
+)
+target_include_directories(hash_func_rbtree_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(hash_func_rbtree_pbt_test PRIVATE theft)
+add_test(NAME hash_func_rbtree_pbt_test COMMAND hash_func_rbtree_pbt_test)
+
 # --- Target: find (extent variant) ---
 add_executable(find_extent_pbt_test
   find_extent_pbt_test.c
