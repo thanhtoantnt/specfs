@@ -129,6 +129,18 @@ target_include_directories(find_extent_pbt_test PRIVATE
 target_link_libraries(find_extent_pbt_test PRIVATE theft)
 add_test(NAME find_extent_pbt_test COMMAND find_extent_pbt_test)
 
+# --- Target: find (extent baseline variant) ---
+add_executable(find_baseline_pbt_test
+  find_baseline_pbt_test.c
+  ../eval/extent/baseline/inode_management.c
+  ../eval/extent/baseline/hashing.c
+)
+target_include_directories(find_baseline_pbt_test PRIVATE
+  ../eval/extent/baseline
+)
+target_link_libraries(find_baseline_pbt_test PRIVATE theft)
+add_test(NAME find_baseline_pbt_test COMMAND find_baseline_pbt_test)
+
 # --- Target: inode_write (extent variant) ---
 add_executable(inode_write_pbt_test
   inode_write_pbt_test.c
