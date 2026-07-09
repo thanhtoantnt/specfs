@@ -639,6 +639,17 @@ target_include_directories(locate_delay_alloc_pbt_test PRIVATE
 target_link_libraries(locate_delay_alloc_pbt_test PRIVATE theft)
 add_test(NAME locate_delay_alloc_pbt_test COMMAND locate_delay_alloc_pbt_test)
 
+# --- Target: locate (pre_alloc variant path_handling.c) ---
+add_executable(locate_prealloc_pbt_test
+  locate_prealloc_pbt_test.c
+  ../eval/pre_alloc/optimization/path_handling.c
+)
+target_include_directories(locate_prealloc_pbt_test PRIVATE
+  ../eval/pre_alloc/optimization
+)
+target_link_libraries(locate_prealloc_pbt_test PRIVATE theft)
+add_test(NAME locate_prealloc_pbt_test COMMAND locate_prealloc_pbt_test)
+
 # --- Target: calculate (pre_alloc variant path_handling.c) ---
 add_executable(calculate_prealloc_pbt_test
   calculate_prealloc_pbt_test.c
