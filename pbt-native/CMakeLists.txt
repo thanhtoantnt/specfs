@@ -109,6 +109,19 @@ target_include_directories(rbtree_lowlevel_file_write_pbt_test PRIVATE
 target_link_libraries(rbtree_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME rbtree_lowlevel_file_write_pbt_test COMMAND rbtree_lowlevel_file_write_pbt_test)
 
+# --- Target: file_allocate (rbtree lowlevel_file.c) ---
+add_executable(rbtree_file_allocate_pbt_test
+  rbtree_file_allocate_pbt_test.c
+  ../eval/rbtree/optimization/lowlevel_file.c
+  ../eval/rbtree/optimization/mballoc.c
+  ../eval/rbtree/optimization/rbtree.c
+)
+target_include_directories(rbtree_file_allocate_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(rbtree_file_allocate_pbt_test PRIVATE theft)
+add_test(NAME rbtree_file_allocate_pbt_test COMMAND rbtree_file_allocate_pbt_test)
+
 # --- Target: file_read (rbtree lowlevel_file.c) ---
 add_executable(rbtree_file_read_pbt_test
   rbtree_file_read_pbt_test.c
@@ -347,6 +360,7 @@ target_link_libraries(calculate_pbt_test PRIVATE theft)
 add_test(NAME calculate_pbt_test COMMAND calculate_pbt_test)
 
 # --- Target: getlen (extent variant path_handling.c) ---
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/getlen_pbt_test.c)
 add_executable(getlen_pbt_test
   getlen_pbt_test.c
   ../eval/extent/optimization/path_handling.c
@@ -356,6 +370,7 @@ target_include_directories(getlen_pbt_test PRIVATE
 )
 target_link_libraries(getlen_pbt_test PRIVATE theft)
 add_test(NAME getlen_pbt_test COMMAND getlen_pbt_test)
+endif()
 
 # --- Target: inode_read (extent variant) ---
 add_executable(inode_read_pbt_test
