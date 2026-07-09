@@ -453,6 +453,17 @@ target_include_directories(inode_write_prealloc_pbt_test PRIVATE
 target_link_libraries(inode_write_prealloc_pbt_test PRIVATE theft)
 add_test(NAME inode_write_prealloc_pbt_test COMMAND inode_write_prealloc_pbt_test)
 
+# --- Target: inode_write (pre_alloc baseline variant) ---
+add_executable(inode_write_prealloc_baseline_pbt_test
+  inode_write_prealloc_baseline_pbt_test.c
+  ../eval/pre_alloc/baseline/inode_management.c
+)
+target_include_directories(inode_write_prealloc_baseline_pbt_test PRIVATE
+  ../eval/pre_alloc/baseline
+)
+target_link_libraries(inode_write_prealloc_baseline_pbt_test PRIVATE theft)
+add_test(NAME inode_write_prealloc_baseline_pbt_test COMMAND inode_write_prealloc_baseline_pbt_test)
+
 # --- Target: find (inline_data variant) ---
 add_executable(find_inline_data_pbt_test
   find_inline_data_pbt_test.c
