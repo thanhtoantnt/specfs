@@ -486,6 +486,17 @@ target_include_directories(inode_truncate_prealloc_baseline_pbt_test PRIVATE
 target_link_libraries(inode_truncate_prealloc_baseline_pbt_test PRIVATE theft)
 add_test(NAME inode_truncate_prealloc_baseline_pbt_test COMMAND inode_truncate_prealloc_baseline_pbt_test)
 
+# --- Target: file_allocate (pre_alloc baseline lowlevel_file.c) ---
+add_executable(file_allocate_prealloc_baseline_pbt_test
+  file_allocate_prealloc_baseline_pbt_test.c
+  ../eval/pre_alloc/baseline/lowlevel_file.c
+)
+target_include_directories(file_allocate_prealloc_baseline_pbt_test PRIVATE
+  ../eval/pre_alloc/baseline
+)
+target_link_libraries(file_allocate_prealloc_baseline_pbt_test PRIVATE theft)
+add_test(NAME file_allocate_prealloc_baseline_pbt_test COMMAND file_allocate_prealloc_baseline_pbt_test)
+
 # --- Target: find (inline_data variant) ---
 add_executable(find_inline_data_pbt_test
   find_inline_data_pbt_test.c
