@@ -1,4 +1,12 @@
 /*
+ * Oracle: Algebraic — Invariant / idempotence (4d/4b)
+ * Stronger considered:
+ *   - State Machine (3): rejected — file_allocate has no lifecycle or state enum; it is a single-shot mutator.
+ *   - Differential (7): rejected — no independent reference implementation in this harness.
+ *   - Round-trip (4a): rejected — page allocation/no-op behavior is not invertible.
+ *   - Reference (5/5'): rejected — the spec describes the contract but provides no external KATs or pinned reference tool.
+ * Weaker available: Crash-Only (6)
+ *
  * Property-based tests for file_allocate() in
  * eval/delay_alloc/optimization/lowlevel_file.c
  */
