@@ -416,17 +416,18 @@ target_include_directories(splitdirsfile_pbt_test PRIVATE
 target_link_libraries(splitdirsfile_pbt_test PRIVATE theft)
 add_test(NAME splitdirsfile_pbt_test COMMAND splitdirsfile_pbt_test)
 
-# --- Target: splitDirsFile (pre_alloc util.c) ---
-add_executable(splitdirsfile_prealloc_pbt_test
-  splitdirsfile_prealloc_pbt_test.c
-  ../eval/pre_alloc/optimization/util.c
-  ../eval/pre_alloc/optimization/mcs.c
+# --- Target: splitDirsFile (inline_data util.c) ---
+add_executable(splitdirsfile_inline_data_pbt_test
+  splitdirsfile_inline_data_pbt_test.c
+  ../eval/inline_data/optimization/util.c
+  ../eval/inline_data/optimization/mcs.c
 )
-target_include_directories(splitdirsfile_prealloc_pbt_test PRIVATE
-  ../eval/pre_alloc/optimization
+target_include_directories(splitdirsfile_inline_data_pbt_test PRIVATE
+  ../eval/inline_data/optimization
 )
-target_link_libraries(splitdirsfile_prealloc_pbt_test PRIVATE theft)
-add_test(NAME splitdirsfile_prealloc_pbt_test COMMAND splitdirsfile_prealloc_pbt_test)
+target_link_libraries(splitdirsfile_inline_data_pbt_test PRIVATE theft)
+add_test(NAME splitdirsfile_inline_data_pbt_test COMMAND splitdirsfile_inline_data_pbt_test)
+
 
 # --- Target: splitDirsFile (rbtree util.c) ---
 add_executable(splitdirsfile_rbtree_pbt_test
