@@ -788,6 +788,17 @@ target_include_directories(dispose_inode_prealloc_baseline_pbt_test PRIVATE
 target_link_libraries(dispose_inode_prealloc_baseline_pbt_test PRIVATE theft)
 add_test(NAME dispose_inode_prealloc_baseline_pbt_test COMMAND dispose_inode_prealloc_baseline_pbt_test)
 
+# --- Target: dispose_inode (rbtree baseline util.c) ---
+add_executable(dispose_inode_rbtree_baseline_pbt_test
+  dispose_inode_rbtree_baseline_pbt_test.c
+  ../eval/rbtree/baseline/mcs.c
+)
+target_include_directories(dispose_inode_rbtree_baseline_pbt_test PRIVATE
+  ../eval/rbtree/baseline
+)
+target_link_libraries(dispose_inode_rbtree_baseline_pbt_test PRIVATE theft)
+add_test(NAME dispose_inode_rbtree_baseline_pbt_test COMMAND dispose_inode_rbtree_baseline_pbt_test)
+
 # --- Target: splitDirsFile (inline_data util.c) ---
 add_executable(splitdirsfile_inline_data_pbt_test
   splitdirsfile_inline_data_pbt_test.c
