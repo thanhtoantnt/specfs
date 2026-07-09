@@ -333,6 +333,20 @@ target_include_directories(rbtree_file_allocate_pbt_test PRIVATE
 target_link_libraries(rbtree_file_allocate_pbt_test PRIVATE theft)
 add_test(NAME rbtree_file_allocate_pbt_test COMMAND rbtree_file_allocate_pbt_test)
 
+# --- Target: file_read (rbtree baseline lowlevel_file.c) ---
+add_executable(file_read_rbtree_baseline_pbt_test
+  file_read_rbtree_baseline_pbt_test.c
+  ../eval/rbtree/baseline/lowlevel_file.c
+  ../eval/rbtree/baseline/mballoc.c
+  ../eval/rbtree/baseline/util.c
+  ../eval/rbtree/baseline/mcs.c
+)
+target_include_directories(file_read_rbtree_baseline_pbt_test PRIVATE
+  ../eval/rbtree/baseline
+)
+target_link_libraries(file_read_rbtree_baseline_pbt_test PRIVATE theft)
+add_test(NAME file_read_rbtree_baseline_pbt_test COMMAND file_read_rbtree_baseline_pbt_test)
+
 # --- Target: file_write (rbtree baseline lowlevel_file.c) ---
 add_executable(file_write_rbtree_baseline_pbt_test
   file_write_rbtree_baseline_pbt_test.c
@@ -346,6 +360,20 @@ target_include_directories(file_write_rbtree_baseline_pbt_test PRIVATE
 )
 target_link_libraries(file_write_rbtree_baseline_pbt_test PRIVATE theft)
 add_test(NAME file_write_rbtree_baseline_pbt_test COMMAND file_write_rbtree_baseline_pbt_test)
+
+# --- Target: file_allocate (rbtree baseline lowlevel_file.c) ---
+add_executable(file_allocate_rbtree_baseline_pbt_test
+  file_allocate_rbtree_baseline_pbt_test.c
+  ../eval/rbtree/baseline/lowlevel_file.c
+  ../eval/rbtree/baseline/mballoc.c
+  ../eval/rbtree/baseline/util.c
+  ../eval/rbtree/baseline/mcs.c
+)
+target_include_directories(file_allocate_rbtree_baseline_pbt_test PRIVATE
+  ../eval/rbtree/baseline
+)
+target_link_libraries(file_allocate_rbtree_baseline_pbt_test PRIVATE theft)
+add_test(NAME file_allocate_rbtree_baseline_pbt_test COMMAND file_allocate_rbtree_baseline_pbt_test)
 
 # --- Target: file_read (rbtree lowlevel_file.c) ---
 add_executable(rbtree_file_read_pbt_test
