@@ -2,6 +2,8 @@
 
 ## Target
 - File: `eval/extent/optimization/path_handling.c`
+- File: `eval/rbtree/optimization/path_handling.c`
+- File: `eval/delay_alloc/optimization/path_handling.c`
 - Function: `calculate`
 
 ## Finding
@@ -21,11 +23,29 @@ src=["aaab"], dst=[]
 
 For this case, the common prefix is empty, so the final `realloc(result, sizeof(char*) * (len + 1))` fails and `result[0] = NULL` segfaults.
 
+The rbtree variant reproduced the same failure in `calculate_rbtree_pbt_test` with examples including:
+
+```text
+src=["d"], dst=[]
+```
+
+The delay_alloc variant reproduced the same failure in `calculate_delay_alloc_pbt_test` with examples including:
+
+```text
+src=[], dst=["a"]
+```
+
 ## Reproduction
 ```sh
 cmake -S pbt-native -B pbt-native/build
 cmake --build pbt-native/build --target calculate_pbt_test
-ctest --test-dir pbt-native/build -R calculate_pbt_test --output-on-failure
+ctest --test-dir pbt-native/build -R '^calculate_pbt_test$' --output-on-failure
+
+cmake --build pbt-native/build --target calculate_rbtree_pbt_test
+ctest --test-dir pbt-native/build -R '^calculate_rbtree_pbt_test$' --output-on-failure
+
+cmake --build pbt-native/build --target calculate_delay_alloc_pbt_test
+ctest --test-dir pbt-native/build -R '^calculate_delay_alloc_pbt_test$' --output-on-failure
 ```
 
 Observed result: the first four functional properties pass, and `realloc_failure_does_not_crash` fails.
