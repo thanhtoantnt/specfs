@@ -241,17 +241,18 @@ target_include_directories(prealloc_clear_file_pbt_test PRIVATE
 target_link_libraries(prealloc_clear_file_pbt_test PRIVATE theft)
 add_test(NAME prealloc_clear_file_pbt_test COMMAND prealloc_clear_file_pbt_test)
 
-# --- Target: find (pre_alloc variant) ---
-add_executable(find_prealloc_pbt_test
-  find_prealloc_pbt_test.c
-  ../eval/pre_alloc/optimization/inode_management.c
-  ../eval/pre_alloc/optimization/hashing.c
+# --- Target: splitDirs (pre_alloc util.c) ---
+add_executable(splitdirs_prealloc_pbt_test
+  splitdirs_prealloc_pbt_test.c
+  ../eval/pre_alloc/optimization/util.c
+  ../eval/pre_alloc/optimization/mcs.c
 )
-target_include_directories(find_prealloc_pbt_test PRIVATE
+target_include_directories(splitdirs_prealloc_pbt_test PRIVATE
   ../eval/pre_alloc/optimization
 )
-target_link_libraries(find_prealloc_pbt_test PRIVATE theft)
-add_test(NAME find_prealloc_pbt_test COMMAND find_prealloc_pbt_test)
+target_link_libraries(splitdirs_prealloc_pbt_test PRIVATE theft)
+add_test(NAME splitdirs_prealloc_pbt_test COMMAND splitdirs_prealloc_pbt_test)
+
 
 # --- Target: inode_read (pre_alloc variant) ---
 add_executable(inode_read_prealloc_pbt_test
