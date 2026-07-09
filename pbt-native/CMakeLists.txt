@@ -248,6 +248,19 @@ target_include_directories(delay_alloc_file_read_pbt_test PRIVATE
 target_link_libraries(delay_alloc_file_read_pbt_test PRIVATE theft)
 add_test(NAME delay_alloc_file_read_pbt_test COMMAND delay_alloc_file_read_pbt_test)
 
+# --- Target: splitDirsFile (delay_alloc util.c) ---
+add_executable(splitdirsfile_pbt_test
+  splitdirsfile_pbt_test.c
+  ../eval/delay_alloc/optimization/util.c
+  ../eval/delay_alloc/optimization/delalloc.c
+  ../eval/delay_alloc/optimization/mcs.c
+)
+target_include_directories(splitdirsfile_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(splitdirsfile_pbt_test PRIVATE theft)
+add_test(NAME splitdirsfile_pbt_test COMMAND splitdirsfile_pbt_test)
+
 # --- Target: inode_truncate (inline_data variant) ---
 add_executable(inode_truncate_inline_data_pbt_test
   inode_truncate_inline_data_pbt_test.c
