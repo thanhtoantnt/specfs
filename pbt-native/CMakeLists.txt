@@ -73,6 +73,16 @@ target_include_directories(lowlevel_file_pbt_test PRIVATE
 target_link_libraries(lowlevel_file_pbt_test PRIVATE theft)
 add_test(NAME lowlevel_file_pbt_test COMMAND lowlevel_file_pbt_test)
 
+# --- Target: calculate (path_handling.c) ---
+add_executable(calculate_pbt_test
+  calculate_pbt_test.c
+)
+target_include_directories(calculate_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(calculate_pbt_test PRIVATE theft)
+add_test(NAME calculate_pbt_test COMMAND calculate_pbt_test)
+
 # --- Target: inode_truncate (inode_management.c) ---
 add_executable(inode_truncate_pbt_test
   inode_truncate_pbt_test.c
