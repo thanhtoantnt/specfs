@@ -977,6 +977,17 @@ target_include_directories(extent_file_allocate_pbt_test PRIVATE
 target_link_libraries(extent_file_allocate_pbt_test PRIVATE theft)
 add_test(NAME extent_file_allocate_pbt_test COMMAND extent_file_allocate_pbt_test)
 
+# --- Target: file_allocate (extent lowlevel_file.c, requested target name) ---
+add_executable(file_allocate_extent_pbt_test
+  file_allocate_extent_pbt_test.c
+  ../eval/extent/optimization/lowlevel_file.c
+)
+target_include_directories(file_allocate_extent_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(file_allocate_extent_pbt_test PRIVATE theft)
+add_test(NAME file_allocate_extent_pbt_test COMMAND file_allocate_extent_pbt_test)
+
 # --- Target: clear_file (extent lowlevel_file.c) ---
 add_executable(extent_clear_file_pbt_test
   extent_clear_file_pbt_test.c
