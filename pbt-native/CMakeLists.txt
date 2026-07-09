@@ -147,6 +147,18 @@ target_include_directories(prealloc_lowlevel_file_write_pbt_test PRIVATE
 target_link_libraries(prealloc_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME prealloc_lowlevel_file_write_pbt_test COMMAND prealloc_lowlevel_file_write_pbt_test)
 
+# --- Target: file_allocate (pre_alloc lowlevel_file.c) ---
+add_executable(prealloc_file_allocate_pbt_test
+  prealloc_file_allocate_pbt_test.c
+  ../eval/pre_alloc/optimization/lowlevel_file.c
+  ../eval/pre_alloc/optimization/mballoc.c
+)
+target_include_directories(prealloc_file_allocate_pbt_test PRIVATE
+  ../eval/pre_alloc/optimization
+)
+target_link_libraries(prealloc_file_allocate_pbt_test PRIVATE theft)
+add_test(NAME prealloc_file_allocate_pbt_test COMMAND prealloc_file_allocate_pbt_test)
+
 # --- Target: file_read (pre_alloc lowlevel_file.c) ---
 add_executable(prealloc_file_read_pbt_test
   prealloc_file_read_pbt_test.c
