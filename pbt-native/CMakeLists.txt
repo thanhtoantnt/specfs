@@ -452,6 +452,18 @@ target_include_directories(splitdirs_extent_pbt_test PRIVATE
 target_link_libraries(splitdirs_extent_pbt_test PRIVATE theft)
 add_test(NAME splitdirs_extent_pbt_test COMMAND splitdirs_extent_pbt_test)
 
+# --- Target: malloc_inode (extent util.c) ---
+add_executable(malloc_inode_extent_pbt_test
+  malloc_inode_extent_pbt_test.c
+  ../eval/extent/optimization/util.c
+  ../eval/extent/optimization/mcs.c
+)
+target_include_directories(malloc_inode_extent_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(malloc_inode_extent_pbt_test PRIVATE theft)
+add_test(NAME malloc_inode_extent_pbt_test COMMAND malloc_inode_extent_pbt_test)
+
 # --- Target: splitDirsFile (inline_data util.c) ---
 add_executable(splitdirsfile_inline_data_pbt_test
   splitdirsfile_inline_data_pbt_test.c
