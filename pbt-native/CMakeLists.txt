@@ -105,7 +105,7 @@ target_include_directories(calculate_pbt_test PRIVATE
 target_link_libraries(calculate_pbt_test PRIVATE theft)
 add_test(NAME calculate_pbt_test COMMAND calculate_pbt_test)
 
-# --- Target: inode_truncate (inode_management.c) ---
+# --- Target: inode_truncate (extent variant) ---
 add_executable(inode_truncate_pbt_test
   inode_truncate_pbt_test.c
   ../eval/extent/optimization/inode_management.c
@@ -115,3 +115,14 @@ target_include_directories(inode_truncate_pbt_test PRIVATE
 )
 target_link_libraries(inode_truncate_pbt_test PRIVATE theft)
 add_test(NAME inode_truncate_pbt_test COMMAND inode_truncate_pbt_test)
+
+# --- Target: inode_truncate (rbtree variant) ---
+add_executable(inode_truncate_rbtree_pbt_test
+  inode_truncate_rbtree_pbt_test.c
+  ../eval/rbtree/optimization/inode_management.c
+)
+target_include_directories(inode_truncate_rbtree_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(inode_truncate_rbtree_pbt_test PRIVATE theft)
+add_test(NAME inode_truncate_rbtree_pbt_test COMMAND inode_truncate_rbtree_pbt_test)
