@@ -116,6 +116,17 @@ target_include_directories(inode_truncate_pbt_test PRIVATE
 target_link_libraries(inode_truncate_pbt_test PRIVATE theft)
 add_test(NAME inode_truncate_pbt_test COMMAND inode_truncate_pbt_test)
 
+# --- Target: inode_truncate (pre_alloc variant) ---
+add_executable(inode_truncate_prealloc_pbt_test
+  inode_truncate_prealloc_pbt_test.c
+  ../eval/pre_alloc/optimization/inode_management.c
+)
+target_include_directories(inode_truncate_prealloc_pbt_test PRIVATE
+  ../eval/pre_alloc/optimization
+)
+target_link_libraries(inode_truncate_prealloc_pbt_test PRIVATE theft)
+add_test(NAME inode_truncate_prealloc_pbt_test COMMAND inode_truncate_prealloc_pbt_test)
+
 # --- Target: inode_truncate (rbtree variant) ---
 add_executable(inode_truncate_rbtree_pbt_test
   inode_truncate_rbtree_pbt_test.c
