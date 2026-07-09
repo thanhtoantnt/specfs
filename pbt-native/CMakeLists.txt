@@ -944,6 +944,17 @@ target_include_directories(inode_truncate_inline_data_baseline_pbt_test PRIVATE
 target_link_libraries(inode_truncate_inline_data_baseline_pbt_test PRIVATE theft)
 add_test(NAME inode_truncate_inline_data_baseline_pbt_test COMMAND inode_truncate_inline_data_baseline_pbt_test)
 
+# --- Target: file_write (extent optimization lowlevel_file.c) ---
+add_executable(file_write_extent_pbt_test
+  file_write_extent_pbt_test.c
+  ../eval/extent/optimization/lowlevel_file.c
+)
+target_include_directories(file_write_extent_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(file_write_extent_pbt_test PRIVATE theft)
+add_test(NAME file_write_extent_pbt_test COMMAND file_write_extent_pbt_test)
+
 # --- Target: lowlevel_file (lowlevel_file.c) ---
 add_executable(lowlevel_file_pbt_test
   lowlevel_file_pbt_test.c
