@@ -607,6 +607,17 @@ target_include_directories(calculate_rbtree_pbt_test PRIVATE
 target_link_libraries(calculate_rbtree_pbt_test PRIVATE theft)
 add_test(NAME calculate_rbtree_pbt_test COMMAND calculate_rbtree_pbt_test)
 
+# --- Target: locate (rbtree variant path_handling.c) ---
+add_executable(locate_rbtree_pbt_test
+  locate_rbtree_pbt_test.c
+  ../eval/rbtree/optimization/path_handling.c
+)
+target_include_directories(locate_rbtree_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(locate_rbtree_pbt_test PRIVATE theft)
+add_test(NAME locate_rbtree_pbt_test COMMAND locate_rbtree_pbt_test)
+
 # --- Target: calculate (delay_alloc variant path_handling.c) ---
 add_executable(calculate_delay_alloc_pbt_test
   calculate_delay_alloc_pbt_test.c
