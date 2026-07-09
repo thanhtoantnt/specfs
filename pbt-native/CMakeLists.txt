@@ -795,17 +795,15 @@ target_link_libraries(locate_inline_data_pbt_test PRIVATE theft)
 add_test(NAME locate_inline_data_pbt_test COMMAND locate_inline_data_pbt_test)
 
 # --- Target: getlen (extent variant path_handling.c) ---
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/getlen_pbt_test.c)
-add_executable(getlen_pbt_test
-  getlen_pbt_test.c
+add_executable(getlen_extent_pbt_test
+  getlen_extent_pbt_test.c
   ../eval/extent/optimization/path_handling.c
 )
-target_include_directories(getlen_pbt_test PRIVATE
+target_include_directories(getlen_extent_pbt_test PRIVATE
   ../eval/extent/optimization
 )
-target_link_libraries(getlen_pbt_test PRIVATE theft)
-add_test(NAME getlen_pbt_test COMMAND getlen_pbt_test)
-endif()
+target_link_libraries(getlen_extent_pbt_test PRIVATE theft)
+add_test(NAME getlen_extent_pbt_test COMMAND getlen_extent_pbt_test)
 
 # --- Target: getlen (pre_alloc variant path_handling.c) ---
 add_executable(getlen_prealloc_pbt_test
