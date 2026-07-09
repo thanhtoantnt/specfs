@@ -285,6 +285,17 @@ target_include_directories(inode_truncate_rbtree_baseline_pbt_test PRIVATE
 target_link_libraries(inode_truncate_rbtree_baseline_pbt_test PRIVATE theft)
 add_test(NAME inode_truncate_rbtree_baseline_pbt_test COMMAND inode_truncate_rbtree_baseline_pbt_test)
 
+# --- Target: inode_read (rbtree baseline variant) ---
+add_executable(inode_read_rbtree_baseline_pbt_test
+  inode_read_rbtree_baseline_pbt_test.c
+  ../eval/rbtree/baseline/inode_management.c
+)
+target_include_directories(inode_read_rbtree_baseline_pbt_test PRIVATE
+  ../eval/rbtree/baseline
+)
+target_link_libraries(inode_read_rbtree_baseline_pbt_test PRIVATE theft)
+add_test(NAME inode_read_rbtree_baseline_pbt_test COMMAND inode_read_rbtree_baseline_pbt_test)
+
 # --- Target: inode_read (rbtree variant) ---
 add_executable(inode_read_rbtree_pbt_test
   inode_read_rbtree_pbt_test.c
