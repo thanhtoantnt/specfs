@@ -637,6 +637,17 @@ target_link_libraries(getlen_pbt_test PRIVATE theft)
 add_test(NAME getlen_pbt_test COMMAND getlen_pbt_test)
 endif()
 
+# --- Target: getlen (delay_alloc variant path_handling.c) ---
+add_executable(getlen_delay_alloc_pbt_test
+  getlen_delay_alloc_pbt_test.c
+  ../eval/delay_alloc/optimization/path_handling.c
+)
+target_include_directories(getlen_delay_alloc_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(getlen_delay_alloc_pbt_test PRIVATE theft)
+add_test(NAME getlen_delay_alloc_pbt_test COMMAND getlen_delay_alloc_pbt_test)
+
 # --- Target: inode_read (extent variant) ---
 add_executable(inode_read_pbt_test
   inode_read_pbt_test.c
