@@ -10,4 +10,5 @@ dist/
 /log
 /result
 
-.env
+.envpbt-native/build/
+*_pbt.xml
