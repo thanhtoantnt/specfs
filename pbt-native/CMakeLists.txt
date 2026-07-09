@@ -129,6 +129,17 @@ target_include_directories(inode_write_pbt_test PRIVATE
 target_link_libraries(inode_write_pbt_test PRIVATE theft)
 add_test(NAME inode_write_pbt_test COMMAND inode_write_pbt_test)
 
+# --- Target: inode_write NULL inode safety (extent variant) ---
+add_executable(inode_write_extent_null_pbt_test
+  inode_write_extent_null_pbt_test.c
+  ../eval/extent/optimization/inode_management.c
+)
+target_include_directories(inode_write_extent_null_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(inode_write_extent_null_pbt_test PRIVATE theft)
+add_test(NAME inode_write_extent_null_pbt_test COMMAND inode_write_extent_null_pbt_test)
+
 # --- Target: find (rbtree variant) ---
 add_executable(find_rbtree_pbt_test
   find_rbtree_pbt_test.c
