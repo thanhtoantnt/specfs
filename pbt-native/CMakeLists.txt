@@ -224,6 +224,18 @@ target_include_directories(delay_alloc_file_write_pbt_test PRIVATE
 target_link_libraries(delay_alloc_file_write_pbt_test PRIVATE theft)
 add_test(NAME delay_alloc_file_write_pbt_test COMMAND delay_alloc_file_write_pbt_test)
 
+# --- Target: file_allocate (delay_alloc lowlevel_file.c) ---
+add_executable(delay_alloc_file_allocate_pbt_test
+  delay_alloc_file_allocate_pbt_test.c
+  ../eval/delay_alloc/optimization/lowlevel_file.c
+  ../eval/delay_alloc/optimization/delalloc.c
+)
+target_include_directories(delay_alloc_file_allocate_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(delay_alloc_file_allocate_pbt_test PRIVATE theft)
+add_test(NAME delay_alloc_file_allocate_pbt_test COMMAND delay_alloc_file_allocate_pbt_test)
+
 # --- Target: file_read (delay_alloc lowlevel_file.c) ---
 add_executable(delay_alloc_file_read_pbt_test
   delay_alloc_file_read_pbt_test.c
