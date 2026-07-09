@@ -463,6 +463,16 @@ target_include_directories(calculate_pbt_test PRIVATE
 target_link_libraries(calculate_pbt_test PRIVATE theft)
 add_test(NAME calculate_pbt_test COMMAND calculate_pbt_test)
 
+# --- Target: calculate (rbtree variant path_handling.c) ---
+add_executable(calculate_rbtree_pbt_test
+  calculate_rbtree_pbt_test.c
+)
+target_include_directories(calculate_rbtree_pbt_test PRIVATE
+  ../eval/rbtree/optimization
+)
+target_link_libraries(calculate_rbtree_pbt_test PRIVATE theft)
+add_test(NAME calculate_rbtree_pbt_test COMMAND calculate_rbtree_pbt_test)
+
 # --- Target: getlen (extent variant path_handling.c) ---
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/getlen_pbt_test.c)
 add_executable(getlen_pbt_test
