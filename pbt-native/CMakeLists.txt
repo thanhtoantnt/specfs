@@ -531,6 +531,17 @@ target_include_directories(inode_read_inline_data_pbt_test PRIVATE
 target_link_libraries(inode_read_inline_data_pbt_test PRIVATE theft)
 add_test(NAME inode_read_inline_data_pbt_test COMMAND inode_read_inline_data_pbt_test)
 
+# --- Target: inode_read (inline_data baseline variant) ---
+add_executable(inode_read_inline_data_baseline_pbt_test
+  inode_read_inline_data_baseline_pbt_test.c
+  ../eval/inline_data/baseline/inode_management.c
+)
+target_include_directories(inode_read_inline_data_baseline_pbt_test PRIVATE
+  ../eval/inline_data/baseline
+)
+target_link_libraries(inode_read_inline_data_baseline_pbt_test PRIVATE theft)
+add_test(NAME inode_read_inline_data_baseline_pbt_test COMMAND inode_read_inline_data_baseline_pbt_test)
+
 # --- Target: inode_read (delay_alloc variant) ---
 add_executable(inode_read_delay_alloc_pbt_test
   inode_read_delay_alloc_pbt_test.c
