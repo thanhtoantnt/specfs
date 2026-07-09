@@ -595,6 +595,17 @@ target_include_directories(inode_write_inline_data_baseline_pbt_test PRIVATE
 target_link_libraries(inode_write_inline_data_baseline_pbt_test PRIVATE theft)
 add_test(NAME inode_write_inline_data_baseline_pbt_test COMMAND inode_write_inline_data_baseline_pbt_test)
 
+# --- Target: file_write (inline_data baseline lowlevel_file.c) ---
+add_executable(file_write_inline_data_baseline_pbt_test
+  file_write_inline_data_baseline_pbt_test.c
+  ../eval/inline_data/baseline/lowlevel_file.c
+)
+target_include_directories(file_write_inline_data_baseline_pbt_test PRIVATE
+  ../eval/inline_data/baseline
+)
+target_link_libraries(file_write_inline_data_baseline_pbt_test PRIVATE theft)
+add_test(NAME file_write_inline_data_baseline_pbt_test COMMAND file_write_inline_data_baseline_pbt_test)
+
 # --- Target: inode_read (inline_data variant) ---
 add_executable(inode_read_inline_data_pbt_test
   inode_read_inline_data_pbt_test.c
