@@ -51,6 +51,18 @@ target_include_directories(hash_func_pbt_test PRIVATE
 target_link_libraries(hash_func_pbt_test PRIVATE theft)
 add_test(NAME hash_func_pbt_test COMMAND hash_func_pbt_test)
 
+# --- Target: find (extent variant) ---
+add_executable(find_extent_pbt_test
+  find_extent_pbt_test.c
+  ../eval/extent/optimization/inode_management.c
+  ../eval/extent/optimization/hashing.c
+)
+target_include_directories(find_extent_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(find_extent_pbt_test PRIVATE theft)
+add_test(NAME find_extent_pbt_test COMMAND find_extent_pbt_test)
+
 # --- Target: inode_write (extent variant) ---
 add_executable(inode_write_pbt_test
   inode_write_pbt_test.c
