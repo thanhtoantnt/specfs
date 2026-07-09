@@ -950,6 +950,17 @@ target_include_directories(getlen_extent_pbt_test PRIVATE
 target_link_libraries(getlen_extent_pbt_test PRIVATE theft)
 add_test(NAME getlen_extent_pbt_test COMMAND getlen_extent_pbt_test)
 
+# --- Target: getlen (extent baseline variant path_handling.c) ---
+add_executable(getlen_baseline_pbt_test
+  getlen_baseline_pbt_test.c
+  ../eval/extent/baseline/path_handling.c
+)
+target_include_directories(getlen_baseline_pbt_test PRIVATE
+  ../eval/extent/baseline
+)
+target_link_libraries(getlen_baseline_pbt_test PRIVATE theft)
+add_test(NAME getlen_baseline_pbt_test COMMAND getlen_baseline_pbt_test)
+
 # --- Target: getlen (pre_alloc variant path_handling.c) ---
 add_executable(getlen_prealloc_pbt_test
   getlen_prealloc_pbt_test.c
