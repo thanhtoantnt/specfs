@@ -473,6 +473,16 @@ target_include_directories(calculate_rbtree_pbt_test PRIVATE
 target_link_libraries(calculate_rbtree_pbt_test PRIVATE theft)
 add_test(NAME calculate_rbtree_pbt_test COMMAND calculate_rbtree_pbt_test)
 
+# --- Target: calculate (delay_alloc variant path_handling.c) ---
+add_executable(calculate_delay_alloc_pbt_test
+  calculate_delay_alloc_pbt_test.c
+)
+target_include_directories(calculate_delay_alloc_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(calculate_delay_alloc_pbt_test PRIVATE theft)
+add_test(NAME calculate_delay_alloc_pbt_test COMMAND calculate_delay_alloc_pbt_test)
+
 # --- Target: getlen (extent variant path_handling.c) ---
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/getlen_pbt_test.c)
 add_executable(getlen_pbt_test
