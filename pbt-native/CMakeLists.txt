@@ -952,3 +952,17 @@ target_include_directories(loc_inode_truncate_pbt_test PRIVATE
 )
 target_link_libraries(loc_inode_truncate_pbt_test PRIVATE theft)
 add_test(NAME loc_inode_truncate_pbt_test COMMAND loc_inode_truncate_pbt_test)
+
+# --- Target: inode_read (eval/loc/gen/inode/inode_read.c) ---
+add_executable(loc_inode_read_pbt_test
+  loc_inode_read_pbt_test.c
+  ../eval/loc/gen/inode/inode_read.c
+)
+target_include_directories(loc_inode_read_pbt_test PRIVATE
+  loc_inode_include
+  ../eval/loc/gen/inode
+  ../eval/loc/gen/file
+  ../eval/loc/gen/util
+)
+target_link_libraries(loc_inode_read_pbt_test PRIVATE theft)
+add_test(NAME loc_inode_read_pbt_test COMMAND loc_inode_read_pbt_test)
