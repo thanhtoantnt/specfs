@@ -416,6 +416,18 @@ target_include_directories(splitdirsfile_pbt_test PRIVATE
 target_link_libraries(splitdirsfile_pbt_test PRIVATE theft)
 add_test(NAME splitdirsfile_pbt_test COMMAND splitdirsfile_pbt_test)
 
+# --- Target: splitDirsFile (extent util.c) ---
+add_executable(splitdirsfile_extent_pbt_test
+  splitdirsfile_extent_pbt_test.c
+  ../eval/extent/optimization/util.c
+  ../eval/extent/optimization/mcs.c
+)
+target_include_directories(splitdirsfile_extent_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(splitdirsfile_extent_pbt_test PRIVATE theft)
+add_test(NAME splitdirsfile_extent_pbt_test COMMAND splitdirsfile_extent_pbt_test)
+
 # --- Target: splitDirsFile (inline_data util.c) ---
 add_executable(splitdirsfile_inline_data_pbt_test
   splitdirsfile_inline_data_pbt_test.c
