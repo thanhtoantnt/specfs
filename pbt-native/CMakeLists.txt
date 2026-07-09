@@ -508,6 +508,17 @@ target_include_directories(file_allocate_prealloc_baseline_pbt_test PRIVATE
 target_link_libraries(file_allocate_prealloc_baseline_pbt_test PRIVATE theft)
 add_test(NAME file_allocate_prealloc_baseline_pbt_test COMMAND file_allocate_prealloc_baseline_pbt_test)
 
+# --- Target: clear_file (pre_alloc baseline lowlevel_file.c) ---
+add_executable(clear_file_prealloc_baseline_pbt_test
+  clear_file_prealloc_baseline_pbt_test.c
+  ../eval/pre_alloc/baseline/lowlevel_file.c
+)
+target_include_directories(clear_file_prealloc_baseline_pbt_test PRIVATE
+  ../eval/pre_alloc/baseline
+)
+target_link_libraries(clear_file_prealloc_baseline_pbt_test PRIVATE theft)
+add_test(NAME clear_file_prealloc_baseline_pbt_test COMMAND clear_file_prealloc_baseline_pbt_test)
+
 # --- Target: find (inline_data variant) ---
 add_executable(find_inline_data_pbt_test
   find_inline_data_pbt_test.c
