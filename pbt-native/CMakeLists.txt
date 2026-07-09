@@ -230,38 +230,17 @@ target_link_libraries(checksum_lowlevel_file_write_pbt_test PRIVATE theft)
 add_test(NAME checksum_lowlevel_file_write_pbt_test COMMAND checksum_lowlevel_file_write_pbt_test)
 
 
-# --- Target: inode_truncate (extent variant) ---
-add_executable(inode_truncate_pbt_test
-  inode_truncate_pbt_test.c
-  ../eval/extent/optimization/inode_management.c
+# --- Target: inode_truncate (delay_alloc variant) ---
+add_executable(inode_truncate_delay_alloc_pbt_test
+  inode_truncate_delay_alloc_pbt_test.c
+  ../eval/delay_alloc/optimization/inode_management.c
 )
-target_include_directories(inode_truncate_pbt_test PRIVATE
-  ../eval/extent/optimization
+target_include_directories(inode_truncate_delay_alloc_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
 )
-target_link_libraries(inode_truncate_pbt_test PRIVATE theft)
-add_test(NAME inode_truncate_pbt_test COMMAND inode_truncate_pbt_test)
+target_link_libraries(inode_truncate_delay_alloc_pbt_test PRIVATE theft)
+add_test(NAME inode_truncate_delay_alloc_pbt_test COMMAND inode_truncate_delay_alloc_pbt_test)
 
-# --- Target: inode_truncate (pre_alloc variant) ---
-add_executable(inode_truncate_prealloc_pbt_test
-  inode_truncate_prealloc_pbt_test.c
-  ../eval/pre_alloc/optimization/inode_management.c
-)
-target_include_directories(inode_truncate_prealloc_pbt_test PRIVATE
-  ../eval/pre_alloc/optimization
-)
-target_link_libraries(inode_truncate_prealloc_pbt_test PRIVATE theft)
-add_test(NAME inode_truncate_prealloc_pbt_test COMMAND inode_truncate_prealloc_pbt_test)
-
-# --- Target: inode_truncate (rbtree variant) ---
-add_executable(inode_truncate_rbtree_pbt_test
-  inode_truncate_rbtree_pbt_test.c
-  ../eval/rbtree/optimization/inode_management.c
-)
-target_include_directories(inode_truncate_rbtree_pbt_test PRIVATE
-  ../eval/rbtree/optimization
-)
-target_link_libraries(inode_truncate_rbtree_pbt_test PRIVATE theft)
-add_test(NAME inode_truncate_rbtree_pbt_test COMMAND inode_truncate_rbtree_pbt_test)
 
 # --- Target: calculate (extent variant path_handling.c) ---
 add_executable(calculate_pbt_test
