@@ -73,6 +73,17 @@ target_include_directories(hash_func_prealloc_pbt_test PRIVATE
 target_link_libraries(hash_func_prealloc_pbt_test PRIVATE theft)
 add_test(NAME hash_func_prealloc_pbt_test COMMAND hash_func_prealloc_pbt_test)
 
+# --- Target: hash_func (inline_data variant) ---
+add_executable(hash_func_inline_data_pbt_test
+  hash_func_inline_data_pbt_test.c
+  ../eval/inline_data/optimization/hashing.c
+)
+target_include_directories(hash_func_inline_data_pbt_test PRIVATE
+  ../eval/inline_data/optimization
+)
+target_link_libraries(hash_func_inline_data_pbt_test PRIVATE theft)
+add_test(NAME hash_func_inline_data_pbt_test COMMAND hash_func_inline_data_pbt_test)
+
 # --- Target: find (extent variant) ---
 add_executable(find_extent_pbt_test
   find_extent_pbt_test.c
