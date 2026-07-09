@@ -346,12 +346,34 @@ target_include_directories(calculate_pbt_test PRIVATE
 target_link_libraries(calculate_pbt_test PRIVATE theft)
 add_test(NAME calculate_pbt_test COMMAND calculate_pbt_test)
 
+# --- Target: getlen (extent variant path_handling.c) ---
+add_executable(getlen_pbt_test
+  getlen_pbt_test.c
+  ../eval/extent/optimization/path_handling.c
+)
+target_include_directories(getlen_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(getlen_pbt_test PRIVATE theft)
+add_test(NAME getlen_pbt_test COMMAND getlen_pbt_test)
+
 # --- Target: inode_read (extent variant) ---
 add_executable(inode_read_pbt_test
   inode_read_pbt_test.c
 )
 target_link_libraries(inode_read_pbt_test PRIVATE theft)
 add_test(NAME inode_read_pbt_test COMMAND inode_read_pbt_test)
+
+# --- Target: file_read (inline_data lowlevel_file.c) ---
+add_executable(inline_data_file_read_pbt_test
+  inline_data_file_read_pbt_test.c
+  ../eval/inline_data/optimization/lowlevel_file.c
+)
+target_include_directories(inline_data_file_read_pbt_test PRIVATE
+  ../eval/inline_data/optimization
+)
+target_link_libraries(inline_data_file_read_pbt_test PRIVATE theft)
+add_test(NAME inline_data_file_read_pbt_test COMMAND inline_data_file_read_pbt_test)
 
 # --- Target: file_write (inline_data lowlevel_file.c) ---
 add_executable(inline_data_file_write_pbt_test
@@ -363,6 +385,7 @@ target_include_directories(inline_data_file_write_pbt_test PRIVATE
 )
 target_link_libraries(inline_data_file_write_pbt_test PRIVATE theft)
 add_test(NAME inline_data_file_write_pbt_test COMMAND inline_data_file_write_pbt_test)
+
 
 # --- Target: file_write (eval/loc/gen/inline-data/lowlevel_file.c) ---
 add_executable(inline_data_loc_file_write_pbt_test
