@@ -453,18 +453,17 @@ target_include_directories(splitdirsfile_rbtree_pbt_test PRIVATE
 target_link_libraries(splitdirsfile_rbtree_pbt_test PRIVATE theft)
 add_test(NAME splitdirsfile_rbtree_pbt_test COMMAND splitdirsfile_rbtree_pbt_test)
 
-# --- Target: splitDirs (delay_alloc util.c) ---
-add_executable(splitdirs_pbt_test2
-  splitdirs_pbt_test2.c
-  ../eval/delay_alloc/optimization/util.c
-  ../eval/delay_alloc/optimization/delalloc.c
-  ../eval/delay_alloc/optimization/mcs.c
+# --- Target: splitDirs (rbtree util.c) ---
+add_executable(splitdirs_rbtree_pbt_test
+  splitdirs_rbtree_pbt_test.c
+  ../eval/rbtree/optimization/util.c
+  ../eval/rbtree/optimization/mcs.c
 )
-target_include_directories(splitdirs_pbt_test2 PRIVATE
-  ../eval/delay_alloc/optimization
+target_include_directories(splitdirs_rbtree_pbt_test PRIVATE
+  ../eval/rbtree/optimization
 )
-target_link_libraries(splitdirs_pbt_test2 PRIVATE theft)
-add_test(NAME splitdirs_pbt_test2 COMMAND splitdirs_pbt_test2)
+target_link_libraries(splitdirs_rbtree_pbt_test PRIVATE theft)
+add_test(NAME splitdirs_rbtree_pbt_test COMMAND splitdirs_rbtree_pbt_test)
 
 # --- Target: inode_truncate (inline_data variant) ---
 add_executable(inode_truncate_inline_data_pbt_test
