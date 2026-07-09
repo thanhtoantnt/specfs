@@ -649,16 +649,16 @@ target_link_libraries(getlen_prealloc_pbt_test PRIVATE theft)
 add_test(NAME getlen_prealloc_pbt_test COMMAND getlen_prealloc_pbt_test)
 
 
-# --- Target: getlen (rbtree variant path_handling.c) ---
-add_executable(getlen_rbtree_pbt_test
-  getlen_rbtree_pbt_test.c
-  ../eval/rbtree/optimization/path_handling.c
+# --- Target: getlen (inline_data variant path_handling.c) ---
+add_executable(getlen_inline_data_pbt_test
+  getlen_inline_data_pbt_test.c
+  ../eval/inline_data/optimization/path_handling.c
 )
-target_include_directories(getlen_rbtree_pbt_test PRIVATE
-  ../eval/rbtree/optimization
+target_include_directories(getlen_inline_data_pbt_test PRIVATE
+  ../eval/inline_data/optimization
 )
-target_link_libraries(getlen_rbtree_pbt_test PRIVATE theft)
-add_test(NAME getlen_rbtree_pbt_test COMMAND getlen_rbtree_pbt_test)
+target_link_libraries(getlen_inline_data_pbt_test PRIVATE theft)
+add_test(NAME getlen_inline_data_pbt_test COMMAND getlen_inline_data_pbt_test)
 
 # --- Target: inode_read (extent variant) ---
 add_executable(inode_read_pbt_test
