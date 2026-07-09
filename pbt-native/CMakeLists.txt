@@ -494,6 +494,18 @@ target_include_directories(malloc_string_pbt_test PRIVATE
 target_link_libraries(malloc_string_pbt_test PRIVATE theft)
 add_test(NAME malloc_string_pbt_test COMMAND malloc_string_pbt_test)
 
+# --- Target: min/max (delay_alloc util.c) ---
+add_executable(min_max_pbt_test
+  min_max_pbt_test.c
+  ../eval/delay_alloc/optimization/util.c
+  ../eval/delay_alloc/optimization/mcs.c
+)
+target_include_directories(min_max_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(min_max_pbt_test PRIVATE theft)
+add_test(NAME min_max_pbt_test COMMAND min_max_pbt_test)
+
 # --- Target: splitDirsFile (delay_alloc util.c) ---
 add_executable(splitdirsfile_pbt_test
   splitdirsfile_pbt_test.c
