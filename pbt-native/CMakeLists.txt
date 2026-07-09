@@ -642,6 +642,18 @@ target_include_directories(splitdirs_extent_pbt_test PRIVATE
 target_link_libraries(splitdirs_extent_pbt_test PRIVATE theft)
 add_test(NAME splitdirs_extent_pbt_test COMMAND splitdirs_extent_pbt_test)
 
+# --- Target: splitDirs (extent baseline util.c) ---
+add_executable(splitdirs_baseline_pbt_test
+  splitdirs_baseline_pbt_test.c
+  ../eval/extent/baseline/util.c
+  ../eval/extent/baseline/mcs.c
+)
+target_include_directories(splitdirs_baseline_pbt_test PRIVATE
+  ../eval/extent/baseline
+)
+target_link_libraries(splitdirs_baseline_pbt_test PRIVATE theft)
+add_test(NAME splitdirs_baseline_pbt_test COMMAND splitdirs_baseline_pbt_test)
+
 # --- Target: malloc_inode (extent util.c) ---
 add_executable(malloc_inode_extent_pbt_test
   malloc_inode_extent_pbt_test.c
