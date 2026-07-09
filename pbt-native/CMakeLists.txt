@@ -319,6 +319,17 @@ target_include_directories(extent_file_allocate_pbt_test PRIVATE
 target_link_libraries(extent_file_allocate_pbt_test PRIVATE theft)
 add_test(NAME extent_file_allocate_pbt_test COMMAND extent_file_allocate_pbt_test)
 
+# --- Target: clear_file (extent lowlevel_file.c) ---
+add_executable(extent_clear_file_pbt_test
+  extent_clear_file_pbt_test.c
+  ../eval/extent/optimization/lowlevel_file.c
+)
+target_include_directories(extent_clear_file_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(extent_clear_file_pbt_test PRIVATE theft)
+add_test(NAME extent_clear_file_pbt_test COMMAND extent_clear_file_pbt_test)
+
 # --- Target: file_read (extent lowlevel_file.c) ---
 add_executable(extent_file_read_pbt_test
   extent_file_read_pbt_test.c
