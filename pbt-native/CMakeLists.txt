@@ -183,6 +183,18 @@ target_include_directories(prealloc_file_read_pbt_test PRIVATE
 target_link_libraries(prealloc_file_read_pbt_test PRIVATE theft)
 add_test(NAME prealloc_file_read_pbt_test COMMAND prealloc_file_read_pbt_test)
 
+# --- Target: find (pre_alloc variant) ---
+add_executable(find_prealloc_pbt_test
+  find_prealloc_pbt_test.c
+  ../eval/pre_alloc/optimization/inode_management.c
+  ../eval/pre_alloc/optimization/hashing.c
+)
+target_include_directories(find_prealloc_pbt_test PRIVATE
+  ../eval/pre_alloc/optimization
+)
+target_link_libraries(find_prealloc_pbt_test PRIVATE theft)
+add_test(NAME find_prealloc_pbt_test COMMAND find_prealloc_pbt_test)
+
 # --- Target: inode_read (pre_alloc variant) ---
 add_executable(inode_read_prealloc_pbt_test
   inode_read_prealloc_pbt_test.c
