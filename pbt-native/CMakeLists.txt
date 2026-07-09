@@ -51,6 +51,17 @@ target_include_directories(hash_func_pbt_test PRIVATE
 target_link_libraries(hash_func_pbt_test PRIVATE theft)
 add_test(NAME hash_func_pbt_test COMMAND hash_func_pbt_test)
 
+# --- Target: hash_func high-byte signed-char boundary (delay_alloc variant) ---
+add_executable(hash_func_delay_alloc_highbyte_pbt_test
+  hash_func_delay_alloc_highbyte_pbt_test.c
+  ../eval/delay_alloc/optimization/hashing.c
+)
+target_include_directories(hash_func_delay_alloc_highbyte_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(hash_func_delay_alloc_highbyte_pbt_test PRIVATE theft)
+add_test(NAME hash_func_delay_alloc_highbyte_pbt_test COMMAND hash_func_delay_alloc_highbyte_pbt_test)
+
 # --- Target: hash_func (rbtree variant) ---
 add_executable(hash_func_rbtree_pbt_test
   hash_func_rbtree_pbt_test.c
