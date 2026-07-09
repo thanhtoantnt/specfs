@@ -448,6 +448,17 @@ target_include_directories(free_path_pbt_test PRIVATE
 target_link_libraries(free_path_pbt_test PRIVATE theft)
 add_test(NAME free_path_pbt_test COMMAND free_path_pbt_test)
 
+# --- Target: free_dirs (delay_alloc util.c) ---
+add_executable(free_dirs_pbt_test
+  free_dirs_pbt_test.c
+  ../eval/delay_alloc/optimization/mcs.c
+)
+target_include_directories(free_dirs_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(free_dirs_pbt_test PRIVATE theft)
+add_test(NAME free_dirs_pbt_test COMMAND free_dirs_pbt_test)
+
 # --- Target: malloc_path (delay_alloc util.c) ---
 add_executable(malloc_path_pbt_test
   malloc_path_pbt_test.c
