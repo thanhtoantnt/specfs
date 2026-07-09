@@ -966,3 +966,18 @@ target_include_directories(loc_inode_read_pbt_test PRIVATE
 )
 target_link_libraries(loc_inode_read_pbt_test PRIVATE theft)
 add_test(NAME loc_inode_read_pbt_test COMMAND loc_inode_read_pbt_test)
+
+# --- Target: calculate (eval/loc/gen/util/calculate.c) ---
+add_executable(loc_calculate_pbt_test
+  loc_calculate_pbt_test.c
+  ../eval/loc/gen/util/calculate.c
+  ../eval/loc/gen/util/malloc_path.c
+  ../eval/loc/gen/util/malloc_string.c
+  ../eval/loc/gen/util/free_path.c
+)
+target_include_directories(loc_calculate_pbt_test PRIVATE
+  loc_inode_include
+  ../eval/loc/gen/util
+)
+target_link_libraries(loc_calculate_pbt_test PRIVATE theft)
+add_test(NAME loc_calculate_pbt_test COMMAND loc_calculate_pbt_test)
