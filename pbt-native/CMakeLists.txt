@@ -184,6 +184,17 @@ target_include_directories(inode_read_baseline_pbt_test PRIVATE
 target_link_libraries(inode_read_baseline_pbt_test PRIVATE theft)
 add_test(NAME inode_read_baseline_pbt_test COMMAND inode_read_baseline_pbt_test)
 
+# --- Target: file_write (extent baseline lowlevel_file.c) ---
+add_executable(file_write_baseline_pbt_test
+  file_write_baseline_pbt_test.c
+  ../eval/extent/baseline/lowlevel_file.c
+)
+target_include_directories(file_write_baseline_pbt_test PRIVATE
+  ../eval/extent/baseline
+)
+target_link_libraries(file_write_baseline_pbt_test PRIVATE theft)
+add_test(NAME file_write_baseline_pbt_test COMMAND file_write_baseline_pbt_test)
+
 # --- Target: clear_file (extent baseline lowlevel_file.c) ---
 add_executable(clear_file_baseline_pbt_test
   clear_file_baseline_pbt_test.c
