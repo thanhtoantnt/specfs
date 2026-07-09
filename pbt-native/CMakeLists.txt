@@ -95,15 +95,16 @@ target_include_directories(lowlevel_file_pbt_test PRIVATE
 target_link_libraries(lowlevel_file_pbt_test PRIVATE theft)
 add_test(NAME lowlevel_file_pbt_test COMMAND lowlevel_file_pbt_test)
 
-# --- Target: calculate (path_handling.c) ---
-add_executable(calculate_pbt_test
-  calculate_pbt_test.c
+# --- Target: encrypt lowlevel_file (eval/loc/gen/encrypt/lowlevel_file.c) ---
+add_executable(encrypt_lowlevel_file_write_pbt_test
+  encrypt_lowlevel_file_write_pbt_test.c
 )
-target_include_directories(calculate_pbt_test PRIVATE
-  ../eval/extent/optimization
+target_include_directories(encrypt_lowlevel_file_write_pbt_test PRIVATE
+  ../eval/loc/gen/encrypt
 )
-target_link_libraries(calculate_pbt_test PRIVATE theft)
-add_test(NAME calculate_pbt_test COMMAND calculate_pbt_test)
+target_link_libraries(encrypt_lowlevel_file_write_pbt_test PRIVATE theft)
+add_test(NAME encrypt_lowlevel_file_write_pbt_test COMMAND encrypt_lowlevel_file_write_pbt_test)
+
 
 # --- Target: inode_truncate (extent variant) ---
 add_executable(inode_truncate_pbt_test
