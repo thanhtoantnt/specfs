@@ -166,6 +166,17 @@ target_include_directories(inode_read_inline_data_pbt_test PRIVATE
 target_link_libraries(inode_read_inline_data_pbt_test PRIVATE theft)
 add_test(NAME inode_read_inline_data_pbt_test COMMAND inode_read_inline_data_pbt_test)
 
+# --- Target: inode_read (delay_alloc variant) ---
+add_executable(inode_read_delay_alloc_pbt_test
+  inode_read_delay_alloc_pbt_test.c
+  ../eval/delay_alloc/optimization/inode_management.c
+)
+target_include_directories(inode_read_delay_alloc_pbt_test PRIVATE
+  ../eval/delay_alloc/optimization
+)
+target_link_libraries(inode_read_delay_alloc_pbt_test PRIVATE theft)
+add_test(NAME inode_read_delay_alloc_pbt_test COMMAND inode_read_delay_alloc_pbt_test)
+
 # --- Target: inode_write (delay_alloc variant) ---
 add_executable(inode_write_delay_alloc_pbt_test
   inode_write_delay_alloc_pbt_test.c
