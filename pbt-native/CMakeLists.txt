@@ -62,6 +62,17 @@ target_include_directories(inode_write_pbt_test PRIVATE
 target_link_libraries(inode_write_pbt_test PRIVATE theft)
 add_test(NAME inode_write_pbt_test COMMAND inode_write_pbt_test)
 
+# --- Target: lowlevel_file (lowlevel_file.c) ---
+add_executable(lowlevel_file_pbt_test
+  lowlevel_file_pbt_test.c
+  ../eval/extent/optimization/lowlevel_file.c
+)
+target_include_directories(lowlevel_file_pbt_test PRIVATE
+  ../eval/extent/optimization
+)
+target_link_libraries(lowlevel_file_pbt_test PRIVATE theft)
+add_test(NAME lowlevel_file_pbt_test COMMAND lowlevel_file_pbt_test)
+
 # --- Target: inode_truncate (inode_management.c) ---
 add_executable(inode_truncate_pbt_test
   inode_truncate_pbt_test.c
