@@ -316,6 +316,17 @@ add_executable(inode_read_pbt_test
 target_link_libraries(inode_read_pbt_test PRIVATE theft)
 add_test(NAME inode_read_pbt_test COMMAND inode_read_pbt_test)
 
+# --- Target: file_write (inline_data lowlevel_file.c) ---
+add_executable(inline_data_file_write_pbt_test
+  inline_data_file_write_pbt_test.c
+  ../eval/inline_data/optimization/lowlevel_file.c
+)
+target_include_directories(inline_data_file_write_pbt_test PRIVATE
+  ../eval/inline_data/optimization
+)
+target_link_libraries(inline_data_file_write_pbt_test PRIVATE theft)
+add_test(NAME inline_data_file_write_pbt_test COMMAND inline_data_file_write_pbt_test)
+
 # --- Target: file_write (eval/loc/gen/inline-data/lowlevel_file.c) ---
 add_executable(inline_data_loc_file_write_pbt_test
   inline_data_loc_file_write_pbt_test.c
