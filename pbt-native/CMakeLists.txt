@@ -637,16 +637,17 @@ target_link_libraries(getlen_pbt_test PRIVATE theft)
 add_test(NAME getlen_pbt_test COMMAND getlen_pbt_test)
 endif()
 
-# --- Target: getlen (delay_alloc variant path_handling.c) ---
-add_executable(getlen_delay_alloc_pbt_test
-  getlen_delay_alloc_pbt_test.c
-  ../eval/delay_alloc/optimization/path_handling.c
+# --- Target: getlen (pre_alloc variant path_handling.c) ---
+add_executable(getlen_prealloc_pbt_test
+  getlen_prealloc_pbt_test.c
+  ../eval/pre_alloc/optimization/path_handling.c
 )
-target_include_directories(getlen_delay_alloc_pbt_test PRIVATE
-  ../eval/delay_alloc/optimization
+target_include_directories(getlen_prealloc_pbt_test PRIVATE
+  ../eval/pre_alloc/optimization
 )
-target_link_libraries(getlen_delay_alloc_pbt_test PRIVATE theft)
-add_test(NAME getlen_delay_alloc_pbt_test COMMAND getlen_delay_alloc_pbt_test)
+target_link_libraries(getlen_prealloc_pbt_test PRIVATE theft)
+add_test(NAME getlen_prealloc_pbt_test COMMAND getlen_prealloc_pbt_test)
+
 
 # --- Target: getlen (rbtree variant path_handling.c) ---
 add_executable(getlen_rbtree_pbt_test
