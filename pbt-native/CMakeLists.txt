@@ -959,6 +959,18 @@ target_include_directories(splitdirsfile_baseline_pbt_test PRIVATE
 target_link_libraries(splitdirsfile_baseline_pbt_test PRIVATE theft)
 add_test(NAME splitdirsfile_baseline_pbt_test COMMAND splitdirsfile_baseline_pbt_test)
 
+# --- Target: splitDirsFile (rbtree baseline util.c) ---
+add_executable(splitdirsfile_rbtree_baseline_pbt_test
+  splitdirsfile_rbtree_baseline_pbt_test.c
+  ../eval/rbtree/baseline/util.c
+  ../eval/rbtree/baseline/mcs.c
+)
+target_include_directories(splitdirsfile_rbtree_baseline_pbt_test PRIVATE
+  ../eval/rbtree/baseline
+)
+target_link_libraries(splitdirsfile_rbtree_baseline_pbt_test PRIVATE theft)
+add_test(NAME splitdirsfile_rbtree_baseline_pbt_test COMMAND splitdirsfile_rbtree_baseline_pbt_test)
+
 # --- Target: malloc_inode (extent util.c) ---
 add_executable(malloc_inode_extent_pbt_test
   malloc_inode_extent_pbt_test.c
