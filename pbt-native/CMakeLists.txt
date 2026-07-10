@@ -935,6 +935,18 @@ target_include_directories(splitdirs_rbtree_baseline_pbt_test PRIVATE
 target_link_libraries(splitdirs_rbtree_baseline_pbt_test PRIVATE theft)
 add_test(NAME splitdirs_rbtree_baseline_pbt_test COMMAND splitdirs_rbtree_baseline_pbt_test)
 
+# --- Target: splitDirsFile (pre_alloc baseline util.c) ---
+add_executable(splitdirsfile_prealloc_baseline_pbt_test
+  splitdirsfile_prealloc_baseline_pbt_test.c
+  ../eval/pre_alloc/baseline/util.c
+  ../eval/pre_alloc/baseline/mcs.c
+)
+target_include_directories(splitdirsfile_prealloc_baseline_pbt_test PRIVATE
+  ../eval/pre_alloc/baseline
+)
+target_link_libraries(splitdirsfile_prealloc_baseline_pbt_test PRIVATE theft)
+add_test(NAME splitdirsfile_prealloc_baseline_pbt_test COMMAND splitdirsfile_prealloc_baseline_pbt_test)
+
 # --- Target: splitDirsFile (extent baseline util.c) ---
 add_executable(splitdirsfile_baseline_pbt_test
   splitdirsfile_baseline_pbt_test.c
