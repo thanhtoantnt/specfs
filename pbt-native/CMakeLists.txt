@@ -506,6 +506,18 @@ target_include_directories(inode_write_prealloc_baseline_pbt_test PRIVATE
 target_link_libraries(inode_write_prealloc_baseline_pbt_test PRIVATE theft)
 add_test(NAME inode_write_prealloc_baseline_pbt_test COMMAND inode_write_prealloc_baseline_pbt_test)
 
+# --- Target: find (pre_alloc baseline variant) ---
+add_executable(find_prealloc_baseline_pbt_test
+  find_prealloc_baseline_pbt_test.c
+  ../eval/pre_alloc/baseline/inode_management.c
+  ../eval/pre_alloc/baseline/hashing.c
+)
+target_include_directories(find_prealloc_baseline_pbt_test PRIVATE
+  ../eval/pre_alloc/baseline
+)
+target_link_libraries(find_prealloc_baseline_pbt_test PRIVATE theft)
+add_test(NAME find_prealloc_baseline_pbt_test COMMAND find_prealloc_baseline_pbt_test)
+
 # --- Target: inode_read (pre_alloc baseline variant) ---
 add_executable(inode_read_prealloc_baseline_pbt_test
   inode_read_prealloc_baseline_pbt_test.c
