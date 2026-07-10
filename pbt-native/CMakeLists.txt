@@ -922,6 +922,17 @@ target_include_directories(free_path_baseline_pbt_test PRIVATE
 target_link_libraries(free_path_baseline_pbt_test PRIVATE theft)
 add_test(NAME free_path_baseline_pbt_test COMMAND free_path_baseline_pbt_test)
 
+# --- Target: free_dirs (extent baseline util.c) ---
+add_executable(free_dirs_baseline_pbt_test
+  free_dirs_baseline_pbt_test.c
+  ../eval/extent/baseline/mcs.c
+)
+target_include_directories(free_dirs_baseline_pbt_test PRIVATE
+  ../eval/extent/baseline
+)
+target_link_libraries(free_dirs_baseline_pbt_test PRIVATE theft)
+add_test(NAME free_dirs_baseline_pbt_test COMMAND free_dirs_baseline_pbt_test)
+
 # --- Target: malloc_getattr_ret (extent baseline util.c) ---
 add_executable(malloc_getattr_ret_baseline_pbt_test
   malloc_getattr_ret_baseline_pbt_test.c
