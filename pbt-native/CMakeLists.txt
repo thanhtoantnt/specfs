@@ -473,6 +473,18 @@ target_include_directories(splitdirs_inline_data_pbt_test PRIVATE
 target_link_libraries(splitdirs_inline_data_pbt_test PRIVATE theft)
 add_test(NAME splitdirs_inline_data_pbt_test COMMAND splitdirs_inline_data_pbt_test)
 
+# --- Target: splitDirs (inline_data baseline util.c) ---
+add_executable(splitdirs_inline_data_baseline_pbt_test
+  splitdirs_inline_data_baseline_pbt_test.c
+  ../eval/inline_data/baseline/util.c
+  ../eval/inline_data/baseline/mcs.c
+)
+target_include_directories(splitdirs_inline_data_baseline_pbt_test PRIVATE
+  ../eval/inline_data/baseline
+)
+target_link_libraries(splitdirs_inline_data_baseline_pbt_test PRIVATE theft)
+add_test(NAME splitdirs_inline_data_baseline_pbt_test COMMAND splitdirs_inline_data_baseline_pbt_test)
+
 # --- Target: splitDirs regression (inline_data util.c) ---
 add_executable(splitdirs_inline_data_regression_test
   splitdirs_inline_data_regression_test.c
