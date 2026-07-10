@@ -983,6 +983,18 @@ target_include_directories(malloc_inode_prealloc_baseline_pbt_test PRIVATE
 target_link_libraries(malloc_inode_prealloc_baseline_pbt_test PRIVATE theft)
 add_test(NAME malloc_inode_prealloc_baseline_pbt_test COMMAND malloc_inode_prealloc_baseline_pbt_test)
 
+# --- Target: malloc_inode (inline_data baseline util.c) ---
+add_executable(malloc_inode_inline_data_baseline_pbt_test
+  malloc_inode_inline_data_baseline_pbt_test.c
+  ../eval/inline_data/baseline/util.c
+  ../eval/inline_data/baseline/mcs.c
+)
+target_include_directories(malloc_inode_inline_data_baseline_pbt_test PRIVATE
+  ../eval/inline_data/baseline
+)
+target_link_libraries(malloc_inode_inline_data_baseline_pbt_test PRIVATE theft)
+add_test(NAME malloc_inode_inline_data_baseline_pbt_test COMMAND malloc_inode_inline_data_baseline_pbt_test)
+
 # --- Target: malloc_inode (rbtree baseline util.c) ---
 add_executable(malloc_inode_rbtree_baseline_pbt_test
   malloc_inode_rbtree_baseline_pbt_test.c
