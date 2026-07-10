@@ -3,8 +3,8 @@
 ## Target
 - Function: `file_allocate`
 - Source: `eval/extent/optimization/lowlevel_file.c`
-- Test: `pbt-native/extent_file_allocate_pbt_test.c`
-- Target: `extent_file_allocate_pbt_test`
+- Test: `pbt-native/file_allocate_extent_pbt_test.c` (also `pbt-native/extent_file_allocate_pbt_test.c`)
+- Target: `file_allocate_extent_pbt_test` (also `extent_file_allocate_pbt_test`)
 
 ## Property
 `∀ offset,len. len > 0 ∧ offset + len <= MAX_FILE_SIZE => file_allocate(NULL, offset, len)` returns safely without dereferencing the null inode pointer.
