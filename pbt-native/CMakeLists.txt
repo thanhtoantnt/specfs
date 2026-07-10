@@ -934,6 +934,17 @@ target_include_directories(malloc_entry_baseline_pbt_test PRIVATE
 target_link_libraries(malloc_entry_baseline_pbt_test PRIVATE theft)
 add_test(NAME malloc_entry_baseline_pbt_test COMMAND malloc_entry_baseline_pbt_test)
 
+# --- Target: malloc_buffer (extent baseline util.c) ---
+add_executable(malloc_buffer_baseline_pbt_test
+  malloc_buffer_baseline_pbt_test.c
+  ../eval/extent/baseline/mcs.c
+)
+target_include_directories(malloc_buffer_baseline_pbt_test PRIVATE
+  ../eval/extent/baseline
+)
+target_link_libraries(malloc_buffer_baseline_pbt_test PRIVATE theft)
+add_test(NAME malloc_buffer_baseline_pbt_test COMMAND malloc_buffer_baseline_pbt_test)
+
 # --- Target: splitDirs (pre_alloc baseline util.c) ---
 add_executable(splitdirs_prealloc_baseline_pbt_test
   splitdirs_prealloc_baseline_pbt_test.c
