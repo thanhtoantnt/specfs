@@ -585,17 +585,17 @@ target_include_directories(clear_file_prealloc_baseline_pbt_test PRIVATE
 target_link_libraries(clear_file_prealloc_baseline_pbt_test PRIVATE theft)
 add_test(NAME clear_file_prealloc_baseline_pbt_test COMMAND clear_file_prealloc_baseline_pbt_test)
 
-# --- Target: find (inline_data variant) ---
-add_executable(find_inline_data_pbt_test
-  find_inline_data_pbt_test.c
-  ../eval/inline_data/optimization/inode_management.c
-  ../eval/inline_data/optimization/hashing.c
+# --- Target: find (inline_data baseline variant) ---
+add_executable(find_inline_data_baseline_pbt_test
+  find_inline_data_baseline_pbt_test.c
+  ../eval/inline_data/baseline/inode_management.c
+  ../eval/inline_data/baseline/hashing.c
 )
-target_include_directories(find_inline_data_pbt_test PRIVATE
-  ../eval/inline_data/optimization
+target_include_directories(find_inline_data_baseline_pbt_test PRIVATE
+  ../eval/inline_data/baseline
 )
-target_link_libraries(find_inline_data_pbt_test PRIVATE theft)
-add_test(NAME find_inline_data_pbt_test COMMAND find_inline_data_pbt_test)
+target_link_libraries(find_inline_data_baseline_pbt_test PRIVATE theft)
+add_test(NAME find_inline_data_baseline_pbt_test COMMAND find_inline_data_baseline_pbt_test)
 
 # --- Target: inode_write (inline_data variant) ---
 add_executable(inode_write_inline_data_pbt_test
