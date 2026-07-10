@@ -252,6 +252,18 @@ target_include_directories(find_rbtree_pbt_test PRIVATE
 target_link_libraries(find_rbtree_pbt_test PRIVATE theft)
 add_test(NAME find_rbtree_pbt_test COMMAND find_rbtree_pbt_test)
 
+# --- Target: find (rbtree baseline variant) ---
+add_executable(find_rbtree_baseline_pbt_test
+  find_rbtree_baseline_pbt_test.c
+  ../eval/rbtree/baseline/inode_management.c
+  ../eval/rbtree/baseline/hashing.c
+)
+target_include_directories(find_rbtree_baseline_pbt_test PRIVATE
+  ../eval/rbtree/baseline
+)
+target_link_libraries(find_rbtree_baseline_pbt_test PRIVATE theft)
+add_test(NAME find_rbtree_baseline_pbt_test COMMAND find_rbtree_baseline_pbt_test)
+
 # --- Target: inode_write (rbtree variant) ---
 add_executable(inode_write_rbtree_pbt_test
   inode_write_rbtree_pbt_test.c
